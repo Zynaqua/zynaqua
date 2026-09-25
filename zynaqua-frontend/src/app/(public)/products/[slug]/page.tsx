@@ -1,3 +1,4 @@
+// src/app/(public)/products/[slug]/page.tsx
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { ProductGallery } from "@/components/product/ProductGallery";
@@ -8,8 +9,13 @@ import { Button, Badge } from "@/components/ui";
 import { buildWhatsAppUrl, productWhatsAppMessage } from "@/lib/whatsapp";
 import type { Product } from "@/types";
 
+// WHY Promise<{ slug: string }>: Next.js 15+ resolves dynamic route params
+// asynchronously so the route shell can begin streaming before params are
+// known. Accessing params.slug synchronously (Day 6's original pattern)
+// throws at runtime on this Next.js version — awaiting it is now mandatory,
+// not optional, in every function that receives `params`.
 interface PageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 async function getProduct(slug: string): Promise<Product | null> {
@@ -34,7 +40,8 @@ async function getRelatedProducts(slug: string): Promise<Product[]> {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const product = await getProduct(params.slug);
+  const { slug } = await params;
+  const product = await getProduct(slug);
 
   if (!product) {
     return { title: "Product Not Found" };
@@ -54,25 +61,24 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function ProductDetailPage({ params }: PageProps) {
-  const product = await getProduct(params.slug);
+  const { slug } = await params;
+  const product = await getProduct(slug);
 
   if (!product) {
     notFound();
   }
 
-  const [relatedProducts] = await Promise.all([getRelatedProducts(params.slug)]);
+  const [relatedProducts] = await Promise.all([getRelatedProducts(slug)]);
   const whatsappUrl = buildWhatsAppUrl(productWhatsAppMessage(product.name));
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">
-      {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="mb-6 text-sm text-charcoal-400">
         <a href="/products" className="hover:text-charcoal-950">Products</a>
         <span className="mx-2">/</span>
         <span className="text-charcoal-950">{product.name}</span>
       </nav>
 
-      {/* Hero: gallery + name + price + WhatsApp CTA */}
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
         <ProductGallery images={product.images} productName={product.name} />
 
@@ -111,7 +117,6 @@ export default async function ProductDetailPage({ params }: PageProps) {
         </div>
       </div>
 
-      {/* Overview — from real description field only */}
       {product.description && (
         <section className="mt-16 max-w-3xl">
           <h2 className="mb-4">Product Overview</h2>
@@ -119,7 +124,6 @@ export default async function ProductDetailPage({ params }: PageProps) {
         </section>
       )}
 
-      {/* Specifications */}
       {product.specifications.length > 0 && (
         <section className="mt-16">
           <h2 className="mb-4">Specifications</h2>
@@ -127,13 +131,11 @@ export default async function ProductDetailPage({ params }: PageProps) {
         </section>
       )}
 
-      {/* FAQ — renders nothing until real FAQ data exists (see note above) */}
       <section className="mt-16">
         <h2 className="mb-4">Frequently Asked Questions</h2>
         <FaqAccordion items={[]} />
       </section>
 
-      {/* Related products */}
       {relatedProducts.length > 0 && (
         <section className="mt-16">
           <h2 className="mb-6">You May Also Like</h2>
@@ -141,7 +143,6 @@ export default async function ProductDetailPage({ params }: PageProps) {
         </section>
       )}
 
-      {/* Bottom WhatsApp CTA — second placement per roadmap's page order */}
       <section className="mt-16 rounded-2xl bg-charcoal-950 px-8 py-10 text-center text-white">
         <h3 className="text-white">Have Questions About {product.name}?</h3>
         <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="mt-4 inline-block">
