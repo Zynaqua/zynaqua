@@ -110,7 +110,7 @@ export function ProductForm({ initialValues, productId }: ProductFormProps) {
           <Button type="button" variant="outline" size="sm" onClick={addImage}>Add Image</Button>
         </div>
         {values.images.map((img, i) => (
-          <div key={i} className="grid grid-cols-[1fr_1fr_auto_auto] gap-2 rounded-lg border border-charcoal-100 p-3">
+          <div key={i} className="grid grid-cols-1 gap-2 rounded-lg border border-charcoal-100 p-3 sm:grid-cols-[1fr_1fr_auto_auto]">
             <Input placeholder="/images/products/example.webp" value={img.imageUrl}
               onChange={(e) => update("images", values.images.map((row, idx) => idx === i ? { ...row, imageUrl: e.target.value } : row))} />
             <Input placeholder="Alt text" value={img.altText}
@@ -131,7 +131,7 @@ export function ProductForm({ initialValues, productId }: ProductFormProps) {
           <Button type="button" variant="outline" size="sm" onClick={addFeature}>Add Feature</Button>
         </div>
         {values.features.map((f, i) => (
-          <div key={i} className="grid grid-cols-[1fr_1fr_auto] gap-2 rounded-lg border border-charcoal-100 p-3">
+          <div key={i} className="grid grid-cols-1 gap-2 rounded-lg border border-charcoal-100 p-3 sm:grid-cols-[1fr_1fr_auto]">
             <Input placeholder="Feature name (e.g. RO Purification)" value={f.featureName}
               onChange={(e) => update("features", values.features.map((row, idx) => idx === i ? { ...row, featureName: e.target.value } : row))} />
             <Input placeholder="Value (optional)" value={f.featureValue}
@@ -147,7 +147,7 @@ export function ProductForm({ initialValues, productId }: ProductFormProps) {
           <Button type="button" variant="outline" size="sm" onClick={addSpec}>Add Specification</Button>
         </div>
         {values.specifications.map((s, i) => (
-          <div key={i} className="grid grid-cols-[1fr_1fr_auto] gap-2 rounded-lg border border-charcoal-100 p-3">
+          <div key={i} className="grid grid-cols-1 gap-2 rounded-lg border border-charcoal-100 p-3 sm:grid-cols-[1fr_1fr_auto]">
             <Input placeholder="Name (e.g. Storage Capacity)" value={s.specificationName}
               onChange={(e) => update("specifications", values.specifications.map((row, idx) => idx === i ? { ...row, specificationName: e.target.value } : row))} />
             <Input placeholder="Value (e.g. 8L)" value={s.specificationValue}

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { clearToken } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 
@@ -12,17 +13,30 @@ const NAV_ITEMS = [
   { href: "/admin/products", label: "Products", enabled: true },
 ];
 
-export function AdminSidebar() {
+interface AdminSidebarProps {
+  isMobileOpen: boolean;
+  onMobileClose: () => void;
+}
+
+export function AdminSidebar({ isMobileOpen, onMobileClose }: AdminSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
+
+  useEffect(() => {
+    if (isMobileOpen) {
+      const previous = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => { document.body.style.overflow = previous; };
+    }
+  }, [isMobileOpen]);
 
   const handleLogout = () => {
     clearToken();
     router.push("/admin/login");
   };
 
-  return (
-    <aside className="flex h-screen w-60 shrink-0 flex-col border-r border-charcoal-100 bg-white">
+  const sidebarContent = (
+    <>
       <div className="border-b border-charcoal-100 px-6 py-5">
         <span className="text-lg font-extrabold text-charcoal-950">
           Zyn<span className="text-gold-500">Aqua</span>
@@ -50,11 +64,10 @@ export function AdminSidebar() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={onMobileClose}
               className={cn(
                 "block rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                isActive
-                  ? "bg-charcoal-950 text-white"
-                  : "text-charcoal-700 hover:bg-charcoal-50"
+                isActive ? "bg-charcoal-950 text-white" : "text-charcoal-700 hover:bg-charcoal-50"
               )}
             >
               {item.label}
@@ -71,6 +84,36 @@ export function AdminSidebar() {
           Log Out
         </button>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* Desktop — unchanged from Day 9, always visible at md+ */}
+      <aside className="hidden h-screen w-60 shrink-0 flex-col border-r border-charcoal-100 bg-white md:flex">
+        {sidebarContent}
+      </aside>
+
+      {/* Mobile — slide-in drawer, only rendered when open */}
+      {isMobileOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          <div
+            className="absolute inset-0 bg-charcoal-950/40"
+            onClick={onMobileClose}
+            aria-hidden="true"
+          />
+          <aside className="absolute left-0 top-0 flex h-full w-64 flex-col bg-white shadow-elevated">
+            <div className="flex justify-end p-2">
+              <button aria-label="Close menu" onClick={onMobileClose} className="p-2">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" d="M6 6l12 12M6 18L18 6" />
+                </svg>
+              </button>
+            </div>
+            {sidebarContent}
+          </aside>
+        </div>
+      )}
+    </>
   );
 }
