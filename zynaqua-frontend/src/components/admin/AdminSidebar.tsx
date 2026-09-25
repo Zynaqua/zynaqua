@@ -9,7 +9,7 @@ const NAV_ITEMS = [
   { href: "/admin/dashboard", label: "Dashboard", enabled: true },
   { href: "/admin/leads", label: "Leads", enabled: true },
   { href: "/admin/customers", label: "Customers", enabled: false },
-  { href: "/admin/products", label: "Products", enabled: false },
+  { href: "/admin/products", label: "Products", enabled: true },
 ];
 
 export function AdminSidebar() {
