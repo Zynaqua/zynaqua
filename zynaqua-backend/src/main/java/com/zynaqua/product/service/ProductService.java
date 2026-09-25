@@ -46,6 +46,20 @@ public class ProductService {
         return toDto(product);
     }
 
+    @Transactional(readOnly = true)
+    public List<ProductResponseDTO> findRelated(String slug) {
+        Product current = productRepository.findBySlugAndIsActiveTrue(slug)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found: " + slug));
+
+        if (current.getCategory() == null) {
+            return List.of();
+        }
+
+        return productRepository.findRelated(current.getCategory(), current.getId()).stream()
+                .map(this::toDto)
+                .toList();
+    }
+
     private ProductResponseDTO toDto(Product product) {
         List<ProductResponseDTO.ImageDTO> images = product.getImages().stream()
             .sorted(Comparator.comparing(ProductImage::getDisplayOrder))
