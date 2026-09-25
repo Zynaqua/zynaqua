@@ -4,18 +4,20 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public record ProductResponseDTO(
-    Long id,
-    String name,
-    String slug,
-    String shortDescription,
-    String description,
-    BigDecimal price,
-    BigDecimal mrp,
-    String category,
-    boolean isFeatured,
-    List<ImageDTO> images,
-    List<FeatureDTO> features,
-    List<SpecificationDTO> specifications
+        Long id,
+        String name,
+        String slug,
+        String shortDescription,
+        String description,
+        BigDecimal price,
+        BigDecimal mrp,
+        String category,
+        boolean isFeatured,
+        boolean isActive,
+
+        List<ImageDTO> images,
+        List<FeatureDTO> features,
+        List<SpecificationDTO> specifications
 ) {
     public record ImageDTO(String imageUrl, String altText, boolean isPrimary) {}
     public record FeatureDTO(String featureName, String featureValue) {}
