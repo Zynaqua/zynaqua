@@ -22,4 +22,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
         AND p.id <> :excludeId
     """)
     List<Product> findRelated(String category, Long excludeId);
+
+    List<Product> findAllByOrderByCreatedAtDesc();
+
+    boolean existsBySlug(String slug);
 }
