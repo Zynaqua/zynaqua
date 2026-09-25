@@ -29,4 +29,9 @@ public class ProductController {
     public ApiResponse<ProductResponseDTO> getProductBySlug(@PathVariable String slug) {
         return ApiResponse.success("Product fetched successfully", productService.findBySlug(slug));
     }
+
+    @GetMapping("/{slug}/related")
+    public ApiResponse<List<ProductResponseDTO>> getRelatedProducts(@PathVariable String slug) {
+        return ApiResponse.success("Related products fetched successfully", productService.findRelated(slug));
+    }
 }
