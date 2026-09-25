@@ -1,38 +1,64 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { isAuthenticated, clearToken } from "@/lib/auth";
-import { Button } from "@/components/ui";
+import Link from "next/link";
+import { adminApi } from "@/lib/adminApi";
+import { StatCard } from "@/components/admin/StatCard";
+import { LeadTable, type LeadListItem } from "@/components/admin/LeadTable";
+
+interface DashboardStats {
+  totalLeads: number;
+  newLeads: number;
+  contacted: number;
+  demoScheduled: number;
+  demoCompleted: number;
+  converted: number;
+  recentEnquiries: LeadListItem[];
+}
 
 export default function AdminDashboardPage() {
-  const router = useRouter();
-  const [checked, setChecked] = useState(false);
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!isAuthenticated()) {
-      router.replace("/admin/login");
-      return;
-    }
-    setChecked(true);
-  }, [router]);
-
-  const handleLogout = () => {
-    clearToken();
-    router.push("/admin/login");
-  };
-
-  if (!checked) return null; // avoid flashing protected content pre-redirect
+    adminApi
+      .get<DashboardStats>("/admin/dashboard/stats")
+      .then(setStats)
+      .catch((err) => setError(err.message ?? "Failed to load dashboard"));
+  }, []);
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">
-      <div className="flex items-center justify-between">
-        <h1>Admin Dashboard</h1>
-        <Button variant="outline" onClick={handleLogout}>Log Out</Button>
-      </div>
-      <p className="mt-4 text-charcoal-400">
-        Real stats, recent enquiries, and navigation are built Day 9.
-      </p>
+      <h1>Admin Dashboard</h1>
+
+      {error && (
+        <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>
+      )}
+
+      {!stats && !error && <p className="mt-6 text-charcoal-400">Loading dashboard…</p>}
+
+      {stats && (
+        <>
+          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+            <StatCard label="Total Leads" value={stats.totalLeads} />
+            <StatCard label="New" value={stats.newLeads} accent="aqua" />
+            <StatCard label="Contacted" value={stats.contacted} accent="gold" />
+            <StatCard label="Demo Scheduled" value={stats.demoScheduled} accent="gold" />
+            <StatCard label="Demo Completed" value={stats.demoCompleted} accent="gold" />
+            <StatCard label="Converted" value={stats.converted} />
+          </div>
+
+          <div className="mt-10 flex items-center justify-between">
+            <h2>Recent Enquiries</h2>
+            <Link href="/admin/leads" className="text-sm font-medium text-charcoal-950 underline">
+              View All Leads
+            </Link>
+          </div>
+          <div className="mt-4">
+            <LeadTable leads={stats.recentEnquiries} />
+          </div>
+        </>
+      )}
     </div>
   );
 }
