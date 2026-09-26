@@ -5,6 +5,7 @@ import Link from "next/link";
 import { adminApi } from "@/lib/adminApi";
 import { StatCard } from "@/components/admin/StatCard";
 import { LeadTable, type LeadListItem } from "@/components/admin/LeadTable";
+import { Skeleton } from "@/components/ui";
 
 interface DashboardStats {
   totalLeads: number;
@@ -35,7 +36,13 @@ export default function AdminDashboardPage() {
         <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>
       )}
 
-      {!stats && !error && <p className="mt-6 text-charcoal-400">Loading dashboard…</p>}
+      {!stats && !error && (
+        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Skeleton key={i} className="h-24" />
+          ))}
+        </div>
+      )}
 
       {stats && (
         <>

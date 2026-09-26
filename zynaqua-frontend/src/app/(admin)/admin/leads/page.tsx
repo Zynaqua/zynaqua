@@ -6,6 +6,7 @@ import { LeadSearchBar } from "@/components/admin/LeadSearchBar";
 import { LeadFilters, type LeadFilterValues } from "@/components/admin/LeadFilters";
 import { LeadTable, type LeadListItem } from "@/components/admin/LeadTable";
 import { Button } from "@/components/ui";
+import { Skeleton } from "@/components/ui";
 
 interface PagedResponse<T> {
   content: T[];
@@ -91,7 +92,11 @@ export default function AdminLeadsPage() {
 
       <div className="mt-6">
         {isLoading ? (
-          <p className="py-12 text-center text-charcoal-400">Loading leads…</p>
+          <div className="space-y-2">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <Skeleton key={i} className="h-14" />
+            ))}
+          </div>
         ) : (
           <LeadTable leads={leads} />
         )}
