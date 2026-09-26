@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import type { ProductImage } from "@/types";
 
@@ -26,12 +27,14 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
 
   return (
     <div>
-      <div className="aspect-square overflow-hidden rounded-xl bg-charcoal-50">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+      <div className="relative aspect-square overflow-hidden rounded-xl bg-charcoal-50">
+        <Image
           src={active.imageUrl}
           alt={active.altText ?? productName}
-          className="h-full w-full object-cover"
+          fill
+          priority
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          className="object-cover"
         />
       </div>
 
@@ -43,16 +46,16 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
               onClick={() => setActiveIndex(index)}
               aria-label={`View image ${index + 1} of ${productName}`}
               aria-current={index === activeIndex}
-              className={`h-16 w-16 overflow-hidden rounded-lg border-2 transition-colors ${
+              className={`relative h-16 w-16 overflow-hidden rounded-lg border-2 transition-colors ${
                 index === activeIndex ? "border-gold-500" : "border-transparent"
               }`}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={img.imageUrl}
                 alt=""
-                aria-hidden="true"
-                className="h-full w-full object-cover"
+                fill
+                sizes="64px"
+                className="object-cover"
               />
             </button>
           ))}

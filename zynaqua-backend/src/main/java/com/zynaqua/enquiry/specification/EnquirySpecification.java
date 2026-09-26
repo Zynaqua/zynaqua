@@ -64,4 +64,13 @@ public class EnquirySpecification {
             }
         };
     }
+
+    public static Specification<Enquiry> fetchCustomer() {
+        return (root, query, cb) -> {
+            if (query.getResultType() != Long.class && query.getResultType() != long.class) {
+                root.fetch("customer", JoinType.LEFT);
+            }
+            return cb.conjunction();
+        };
+    }
 }
