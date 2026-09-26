@@ -10,8 +10,8 @@ export function ProductGrid({ products, groupByCategory = false }: ProductGridPr
   if (!groupByCategory) {
     return (
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+        {products.map((product, index) => (
+          <ProductCard key={product.id} product={product} priority={index < 3} />
         ))}
       </div>
     );
@@ -23,15 +23,19 @@ export function ProductGrid({ products, groupByCategory = false }: ProductGridPr
     return acc;
   }, {});
 
+  let renderedCount = 0;
+
   return (
     <div className="space-y-12">
       {Object.entries(grouped).map(([category, items]) => (
         <section key={category}>
           <h3 className="mb-5">{category}</h3>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {items.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+            {items.map((product) => {
+              const isPriority = renderedCount < 3;
+              renderedCount++;
+              return <ProductCard key={product.id} product={product} priority={isPriority} />;
+            })}
           </div>
         </section>
       ))}
