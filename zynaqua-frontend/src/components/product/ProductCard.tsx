@@ -1,3 +1,5 @@
+// src/components/product/ProductCard.tsx
+import Image from "next/image";
 import Link from "next/link";
 import { Card, CardBody, Badge, Button } from "@/components/ui";
 import { buildWhatsAppUrl, productWhatsAppMessage } from "@/lib/whatsapp";
@@ -5,22 +7,24 @@ import type { Product } from "@/types";
 
 interface ProductCardProps {
   product: Product;
+  priority?: boolean; 
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, priority = false }: ProductCardProps) {
   const primaryImage = product.images.find((img) => img.isPrimary) ?? product.images[0];
-
   const whatsappUrl = buildWhatsAppUrl(productWhatsAppMessage(product.name));
 
   return (
     <Card className="flex h-full flex-col overflow-hidden">
-      <div className="aspect-square bg-charcoal-50">
+      <div className="relative aspect-square bg-charcoal-50">
         {primaryImage ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={primaryImage.imageUrl}
             alt={primaryImage.altText ?? product.name}
-            className="h-full w-full object-cover"
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover"
+            priority={priority}
           />
         ) : (
           <div className="flex h-full items-center justify-center text-sm text-charcoal-400">
@@ -38,9 +42,9 @@ export function ProductCard({ product }: ProductCardProps) {
         {product.features.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-1.5">
             {product.features.slice(0, 3).map((feature, index) => (
-            <Badge key={`${product.id}-feature-${index}`} variant="gold">
+              <Badge key={`${product.id}-feature-${index}`} variant="gold">
                 {feature.featureName}
-            </Badge>
+              </Badge>
             ))}
           </div>
         )}
@@ -58,14 +62,10 @@ export function ProductCard({ product }: ProductCardProps) {
 
         <div className="mt-4 grid grid-cols-2 gap-2">
           <Link href={`/products/${product.slug}`}>
-            <Button variant="outline" size="sm" className="w-full">
-              View Details
-            </Button>
+            <Button variant="outline" size="sm" className="w-full">View Details</Button>
           </Link>
           <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-            <Button variant="whatsapp" size="sm" className="w-full">
-              WhatsApp
-            </Button>
+            <Button variant="whatsapp" size="sm" className="w-full">WhatsApp</Button>
           </a>
         </div>
       </CardBody>

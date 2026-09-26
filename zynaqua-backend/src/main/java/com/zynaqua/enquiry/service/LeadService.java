@@ -60,16 +60,12 @@ public class LeadService {
 
     @Transactional(readOnly = true)
     public PagedResponse<LeadListItemDTO> searchLeads(
-            String search,
-            EnquiryStatus status,
-            EnquiryType type,
-            String city,
-            LocalDateTime dateFrom,
-            LocalDateTime dateTo,
-            Pageable pageable
+            String search, EnquiryStatus status, EnquiryType type,
+            String city, LocalDateTime dateFrom, LocalDateTime dateTo, Pageable pageable
     ) {
         Specification<Enquiry> spec = Specification
-                .where(EnquirySpecification.search(search))
+                .where(EnquirySpecification.fetchCustomer())
+                .and(EnquirySpecification.search(search))
                 .and(EnquirySpecification.hasStatus(status))
                 .and(EnquirySpecification.hasType(type))
                 .and(EnquirySpecification.hasCity(city))
