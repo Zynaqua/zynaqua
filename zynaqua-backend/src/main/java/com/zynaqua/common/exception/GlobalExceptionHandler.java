@@ -74,4 +74,47 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(ApiResponse.error(ex.getMessage()));
     }
+
+    @ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiResponse<Object>> handleMalformedJson(
+            org.springframework.http.converter.HttpMessageNotReadableException ex
+    ) {
+        String message = "Malformed request body. Please check your input.";
+
+        Throwable cause = ex.getCause();
+        if (cause instanceof com.fasterxml.jackson.databind.exc.InvalidFormatException ife) {
+            String fieldName = ife.getPath().isEmpty()
+                    ? "unknown field"
+                    : ife.getPath().get(ife.getPath().size() - 1).getFieldName();
+            String invalidValue = String.valueOf(ife.getValue());
+
+            if (ife.getTargetType() != null && ife.getTargetType().isEnum()) {
+                Object[] accepted = ife.getTargetType().getEnumConstants();
+                message = String.format(
+                        "Invalid value '%s' for field '%s'. Accepted values: %s",
+                        invalidValue, fieldName, java.util.Arrays.toString(accepted)
+                );
+            } else {
+                message = String.format(
+                        "Invalid value '%s' for field '%s'.", invalidValue, fieldName
+                );
+            }
+        }
+
+        log.warn("Malformed request body: {}", message);
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.error(message));
+    }
+
+    @ExceptionHandler(com.zynaqua.auth.service.LoginRateLimitExceededException.class)
+    public ResponseEntity<ApiResponse<Object>> handleRateLimitExceeded(
+            com.zynaqua.auth.service.LoginRateLimitExceededException ex
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.TOO_MANY_REQUESTS) // 429
+                .header("Retry-After", String.valueOf(ex.getRetryAfterSeconds()))
+                .body(ApiResponse.error(ex.getMessage()));
+    }
 }

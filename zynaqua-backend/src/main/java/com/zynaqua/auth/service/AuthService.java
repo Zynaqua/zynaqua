@@ -21,31 +21,38 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final AdminRepository adminRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final LoginRateLimiter rateLimiter; // NEW
 
     public AuthResponseDTO login(LoginRequestDTO request) {
+        String key = request.getEmail().toLowerCase();
+
+        if (rateLimiter.isBlocked(key)) {
+            long retryAfter = rateLimiter.getRetryAfterSeconds(key);
+            log.warn("Login blocked due to rate limit: email={}, retryAfterSec={}", key, retryAfter);
+            throw new LoginRateLimitExceededException(retryAfter);
+        }
 
         try {
             authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
             );
         } catch (BadCredentialsException ex) {
+            rateLimiter.recordFailure(key);
             log.warn("Failed login attempt for email={}", request.getEmail());
             throw new BadCredentialsException("Invalid email or password");
         }
 
+        rateLimiter.recordSuccess(key);
+
         Admin admin = adminRepository.findByEmailAndIsActiveTrue(request.getEmail())
-            .orElseThrow(() -> new UsernameNotFoundException("No active admin found"));
+                .orElseThrow(() -> new UsernameNotFoundException("No active admin found"));
 
         String token = jwtTokenProvider.generateToken(admin.getId(), admin.getEmail());
         log.info("Admin login successful: adminId={}, email={}", admin.getId(), admin.getEmail());
 
         return new AuthResponseDTO(
-            token,
-            "Bearer",
-            admin.getId(),
-            admin.getName(),
-            admin.getEmail(),
-            jwtTokenProvider.getExpirationMs()
+                token, "Bearer", admin.getId(), admin.getName(), admin.getEmail(),
+                jwtTokenProvider.getExpirationMs()
         );
     }
 }

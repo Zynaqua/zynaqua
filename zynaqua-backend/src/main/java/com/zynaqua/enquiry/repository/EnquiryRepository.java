@@ -2,6 +2,7 @@ package com.zynaqua.enquiry.repository;
 
 import com.zynaqua.enquiry.entity.Enquiry;
 import com.zynaqua.enquiry.entity.EnquiryStatus;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -11,5 +12,6 @@ public interface EnquiryRepository extends JpaRepository<Enquiry, Long>, JpaSpec
 
     long countByStatus(EnquiryStatus status);
 
+    @EntityGraph(attributePaths = "customer")
     List<Enquiry> findTop10ByOrderByCreatedAtDesc();
 }

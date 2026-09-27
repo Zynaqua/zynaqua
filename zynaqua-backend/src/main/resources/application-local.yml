@@ -1,6 +1,3 @@
-# src/main/resources/application-local.yml
-# Gitignored. Copy from .env.example values into your shell/IDE run config instead
-# of committing real secrets here — this file exists only as a local-dev template.
 spring:
   config:
     activate:

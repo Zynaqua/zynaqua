@@ -1,4 +1,3 @@
-// src/main/java/com/zynaqua/enquiry/entity/Enquiry.java
 package com.zynaqua.enquiry.entity;
 
 import com.zynaqua.customer.entity.Customer;
@@ -32,7 +31,11 @@ public class Enquiry {
     @Column(name = "enquiry_type", nullable = false)
     private EnquiryType enquiryType;
 
-    // Nullable: a FREE_DEMO or GENERAL enquiry has no specific product.
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private EnquirySource source = EnquirySource.ONLINE;
+
     @Column(name = "product_id")
     private Long productId;
 
@@ -56,6 +59,9 @@ public class Enquiry {
         this.updatedAt = LocalDateTime.now();
         if (this.status == null) {
             this.status = EnquiryStatus.NEW;
+        }
+        if (this.source == null) {
+            this.source = EnquirySource.ONLINE;
         }
     }
 
