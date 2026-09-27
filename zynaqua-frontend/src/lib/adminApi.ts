@@ -10,39 +10,34 @@ interface ApiResponse<T> {
 
 export class AdminApiError extends Error {
   status: number;
-  constructor(message: string, status: number) {
+  fieldErrors?: Record<string, string>;
+  constructor(message: string, status: number, fieldErrors?: Record<string, string>) {
     super(message);
     this.name = "AdminApiError";
     this.status = status;
+    this.fieldErrors = fieldErrors;
   }
 }
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const res = await fetch(`${API_BASE_URL}${path}`, {
     ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...authHeaders(),
-      ...options.headers,
-    },
+    headers: { "Content-Type": "application/json", ...authHeaders(), ...options.headers },
   });
 
   if (res.status === 401) {
-
     clearToken();
-    if (typeof window !== "undefined") {
-      window.location.href = "/admin/login";
-    }
+    if (typeof window !== "undefined") window.location.href = "/admin/login";
     throw new AdminApiError("Session expired", 401);
   }
 
   const body = await res.json();
 
   if (!res.ok) {
-    throw new AdminApiError(body.message || "Something went wrong.", res.status);
+    throw new AdminApiError(body.message || "Something went wrong.", res.status, body.fieldErrors);
   }
 
-  return (body as ApiResponse<T>).data;
+  return (body as { data: T }).data;
 }
 
 export const adminApi = {

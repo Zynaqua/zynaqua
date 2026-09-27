@@ -79,3 +79,5 @@ export interface Customer {
   address: string;
   createdAt: string;
 }
+
+export type EnquirySource = "ONLINE" | "OFFLINE";

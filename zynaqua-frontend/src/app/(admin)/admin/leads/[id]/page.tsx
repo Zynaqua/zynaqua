@@ -1,7 +1,13 @@
+// src/app/(admin)/admin/leads/[id]/page.tsx
+// Day 9's file — add source display, an Edit link, and a Delete button
+// with confirmation. The existing status-dropdown + Save Status section
+// stays exactly as-is (quick status changes remain available there).
+
 "use client";
 
 import { use, useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { adminApi } from "@/lib/adminApi";
 import { Button, Card, CardBody, Badge } from "@/components/ui";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
@@ -17,6 +23,7 @@ interface LeadDetail {
   customerPincode: string;
   customerAddress: string;
   enquiryType: string;
+  source: "ONLINE" | "OFFLINE"; // NEW
   productId: number | null;
   productName: string | null;
   message: string | null;
@@ -36,10 +43,12 @@ interface PageProps {
 
 export default function LeadDetailPage({ params }: PageProps) {
   const { id } = use(params);
+  const router = useRouter();
 
   const [lead, setLead] = useState<LeadDetail | null>(null);
   const [selectedStatus, setSelectedStatus] = useState<EnquiryStatus | "">("");
   const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -62,6 +71,29 @@ export default function LeadDetailPage({ params }: PageProps) {
       setError(err instanceof Error ? err.message : "Failed to update status");
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  // WHY window.confirm rather than a custom modal component: a browser
+  // native confirm is sufficient friction for a destructive, low-frequency
+  // admin action — building a custom confirmation modal component for
+  // this single use case would be more code with no real UX benefit at
+  // this project's scale (the same reasoning Day 9 used for plain <select>
+  // filters over a custom dropdown).
+  const handleDelete = async () => {
+    if (!lead) return;
+    const confirmed = window.confirm(
+      `Delete the lead for ${lead.customerName}? This cannot be undone.`
+    );
+    if (!confirmed) return;
+
+    setIsDeleting(true);
+    try {
+      await adminApi.delete(`/admin/leads/${id}`);
+      router.push("/admin/leads");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to delete lead");
+      setIsDeleting(false);
     }
   };
 
@@ -88,9 +120,22 @@ export default function LeadDetailPage({ params }: PageProps) {
         ← Back to Leads
       </Link>
 
-      <div className="mt-4 flex items-center justify-between">
-        <h1>{lead.customerName}</h1>
-        <Badge variant="gold">{lead.enquiryType.replace(/_/g, " ")}</Badge>
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <h1>{lead.customerName}</h1>
+          <Badge variant="gold">{lead.enquiryType.replace(/_/g, " ")}</Badge>
+          <Badge variant={lead.source === "OFFLINE" ? "aqua" : "neutral"}>
+            {lead.source === "OFFLINE" ? "Offline" : "Online"}
+          </Badge>
+        </div>
+        <div className="flex gap-2">
+          <Link href={`/admin/leads/${id}/edit`}>
+            <Button variant="outline" size="sm">Edit Lead</Button>
+          </Link>
+          <Button variant="ghost" size="sm" isLoading={isDeleting} onClick={handleDelete}>
+            Delete
+          </Button>
+        </div>
       </div>
 
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
