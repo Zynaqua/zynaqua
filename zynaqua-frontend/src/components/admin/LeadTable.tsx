@@ -9,6 +9,7 @@ export interface LeadListItem {
   customerMobile: string;
   customerCity: string;
   enquiryType: string;
+  source: "ONLINE" | "OFFLINE";
   status: EnquiryStatus;
   createdAt: string;
 }
@@ -46,6 +47,7 @@ export function LeadTable({ leads }: LeadTableProps) {
               <th className="px-4 py-3 font-medium text-charcoal-700">Type</th>
               <th className="px-4 py-3 font-medium text-charcoal-700">Status</th>
               <th className="px-4 py-3 font-medium text-charcoal-700">Date</th>
+              <th className="px-4 py-3 font-medium text-charcoal-700">Source</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-charcoal-100">
@@ -64,6 +66,11 @@ export function LeadTable({ leads }: LeadTableProps) {
                 </td>
                 <td className="px-4 py-3 text-charcoal-400">
                   {new Date(lead.createdAt).toLocaleDateString("en-IN")}
+                </td>
+                 <td className="px-4 py-3">
+                  <Badge variant={lead.source === "OFFLINE" ? "aqua" : "neutral"}>
+                    {lead.source === "OFFLINE" ? "Offline" : "Online"}
+                  </Badge>
                 </td>
               </tr>
             ))}
@@ -88,6 +95,13 @@ export function LeadTable({ leads }: LeadTableProps) {
             </div>
             <p className="mt-2 text-xs text-charcoal-400">
               {lead.enquiryType.replace(/_/g, " ")} · {new Date(lead.createdAt).toLocaleDateString("en-IN")}
+            </p>
+            <p className="mt-2 text-xs text-charcoal-400">
+              {lead.enquiryType.replace(/_/g, " ")} ·{" "}
+              <span className={lead.source === "OFFLINE" ? "text-aqua-600 font-medium" : ""}>
+                {lead.source === "OFFLINE" ? "Offline" : "Online"}
+              </span>{" "}
+              · {new Date(lead.createdAt).toLocaleDateString("en-IN")}
             </p>
           </Link>
         ))}
