@@ -7,6 +7,7 @@ import { LeadFilters, type LeadFilterValues } from "@/components/admin/LeadFilte
 import { LeadTable, type LeadListItem } from "@/components/admin/LeadTable";
 import { Button } from "@/components/ui";
 import { Skeleton } from "@/components/ui";
+import Link from "next/link";
 
 interface PagedResponse<T> {
   content: T[];
@@ -81,6 +82,9 @@ export default function AdminLeadsPage() {
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">
       <h1>Leads</h1>
+        <Link href="/admin/leads/new">
+          <Button>+ Add Lead</Button>
+        </Link>
 
       <div className="mt-6 space-y-4">
         <LeadSearchBar onSearch={(term) => { setSearchTerm(term); setPage(0); }} />
