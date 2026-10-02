@@ -11,6 +11,7 @@ interface SpecRow { specificationName: string; specificationValue: string; displ
 
 export interface ProductFormValues {
   name: string;
+  modelName: string;
   slug: string;
   shortDescription: string;
   description: string;
@@ -29,9 +30,18 @@ interface ProductFormProps {
 }
 
 const EMPTY_FORM: ProductFormValues = {
-  name: "", slug: "", shortDescription: "", description: "",
-  price: "", mrp: "", category: "", isFeatured: false,
-  images: [], features: [], specifications: [],
+  name: "",
+  modelName: "",
+  slug: "",
+  shortDescription: "",
+  description: "",
+  price: "",
+  mrp: "",
+  category: "",
+  isFeatured: false,
+  images: [],
+  features: [],
+  specifications: [],
 };
 
 export function ProductForm({ initialValues, productId }: ProductFormProps) {
@@ -57,6 +67,7 @@ export function ProductForm({ initialValues, productId }: ProductFormProps) {
 
     const payload = {
       name: values.name,
+      modelName: values.modelName,
       slug: values.slug || undefined,
       shortDescription: values.shortDescription || undefined,
       description: values.description || undefined,
@@ -89,8 +100,26 @@ export function ProductForm({ initialValues, productId }: ProductFormProps) {
 
       <Card><CardBody className="space-y-4">
         <h3>Basic Details</h3>
-        <Input label="Product Name" required value={values.name} onChange={(e) => update("name", e.target.value)} />
-        <Input label="Slug (optional — auto-generated from name if left blank)" value={values.slug} onChange={(e) => update("slug", e.target.value)} />
+        <Input
+          label="Product Name"
+          required
+          value={values.name}
+          onChange={(e) => update("name", e.target.value)}
+        />
+
+        <Input
+          label="Model Name"
+          required
+          value={values.modelName}
+          onChange={(e) => update("modelName", e.target.value)}
+          placeholder="e.g. Model 1"
+        />
+
+        <Input
+          label="Slug (optional — auto-generated from name if left blank)"
+          value={values.slug}
+          onChange={(e) => update("slug", e.target.value)}
+        />
         <Input label="Short Description" value={values.shortDescription} onChange={(e) => update("shortDescription", e.target.value)} />
         <Textarea label="Full Description" value={values.description} onChange={(e) => update("description", e.target.value)} />
         <div className="grid grid-cols-2 gap-4">

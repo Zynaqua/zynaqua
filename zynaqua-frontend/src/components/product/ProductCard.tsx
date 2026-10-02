@@ -12,7 +12,9 @@ interface ProductCardProps {
 
 export function ProductCard({ product, priority = false }: ProductCardProps) {
   const primaryImage = product.images.find((img) => img.isPrimary) ?? product.images[0];
-  const whatsappUrl = buildWhatsAppUrl(productWhatsAppMessage(product.name));
+  const whatsappUrl = buildWhatsAppUrl(
+    productWhatsAppMessage(product.name, product.modelName)
+  );
 
   return (
     <Card className="flex h-full flex-col overflow-hidden">
@@ -23,7 +25,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
             alt={primaryImage.altText ?? product.name}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover"
+            className="object-contain p-4"
             priority={priority}
           />
         ) : (
@@ -34,7 +36,14 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
       </div>
 
       <CardBody className="flex flex-1 flex-col">
-        <h4>{product.name}</h4>
+        <div>
+          <h4>{product.name}</h4>
+          {product.modelName && (
+            <p className="mt-1 text-sm font-medium text-charcoal-500">
+              {product.modelName}
+            </p>
+          )}
+        </div>
         {product.shortDescription && (
           <p className="mt-1 line-clamp-2 text-sm">{product.shortDescription}</p>
         )}

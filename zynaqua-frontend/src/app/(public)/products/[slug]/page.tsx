@@ -8,6 +8,8 @@ import { ProductGrid } from "@/components/product/ProductGrid";
 import { Button, Badge } from "@/components/ui";
 import { buildWhatsAppUrl, productWhatsAppMessage } from "@/lib/whatsapp";
 import type { Product } from "@/types";
+import Link from "next/link";
+import Image from "next/image";
 
 // WHY Promise<{ slug: string }>: Next.js 15+ resolves dynamic route params
 // asynchronously so the route shell can begin streaming before params are
@@ -48,12 +50,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return {
-    title: product.name,
+    title: product.modelName
+      ? `${product.name} - ${product.modelName}`
+      : product.name,
     description:
       product.shortDescription ??
       `${product.name} — premium water purifier from ZynAqua.`,
     openGraph: {
-      title: product.name,
+      title: product.modelName
+        ? `${product.name} - ${product.modelName}`
+        : product.name,
       description: product.shortDescription ?? undefined,
       images: product.images[0] ? [product.images[0].imageUrl] : undefined,
     },
@@ -69,14 +75,32 @@ export default async function ProductDetailPage({ params }: PageProps) {
   }
 
   const [relatedProducts] = await Promise.all([getRelatedProducts(slug)]);
-  const whatsappUrl = buildWhatsAppUrl(productWhatsAppMessage(product.name));
+
+  const modelVariants = relatedProducts.filter(
+    (item) =>
+      item.name === product.name &&
+      item.slug !== product.slug
+  );
+
+  const otherProducts = relatedProducts.filter(
+    (item) => item.name !== product.name
+  );
+
+  const whatsappUrl = buildWhatsAppUrl(
+    productWhatsAppMessage(product.name, product.modelName)
+  );
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">
       <nav aria-label="Breadcrumb" className="mb-6 text-sm text-charcoal-400">
-        <a href="/products" className="hover:text-charcoal-950">Products</a>
+        <Link href="/products" className="hover:text-charcoal-950">
+          Products
+        </Link>
         <span className="mx-2">/</span>
-        <span className="text-charcoal-950">{product.name}</span>
+        <span className="text-charcoal-950">
+          {product.name}
+          {product.modelName ? ` - ${product.modelName}` : ""}
+        </span>
       </nav>
 
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
@@ -84,6 +108,12 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
         <div>
           <h1>{product.name}</h1>
+
+          {product.modelName && (
+            <p className="mt-1 text-sm font-medium text-charcoal-500">
+              {product.modelName}
+            </p>
+          )}
           {product.shortDescription && (
             <p className="mt-2">{product.shortDescription}</p>
           )}
@@ -98,6 +128,64 @@ export default async function ProductDetailPage({ params }: PageProps) {
               </span>
             )}
           </div>
+
+          {modelVariants.length > 0 && (
+            <div className="mt-6">
+              <h3 className="mb-3 text-base font-semibold">Choose Model</h3>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="rounded-xl border-2 border-gold-500 p-3">
+                  <div className="relative aspect-square overflow-hidden rounded-lg bg-charcoal-50">
+                    {product.images[0] && (
+                      <Image
+                        src={product.images[0].imageUrl}
+                        alt={product.modelName ?? product.name}
+                        fill
+                        sizes="(max-width: 640px) 50vw, 200px"
+                        className="object-contain p-2"
+                      />
+                    )}
+                  </div>
+
+                  <p className="mt-2 text-sm font-semibold">
+                    {product.modelName}
+                  </p>
+
+                  <p className="text-sm text-charcoal-500">
+                    ₹{product.price.toLocaleString("en-IN")}
+                  </p>
+                </div>
+
+                {modelVariants.map((variant) => (
+                  <Link
+                    key={variant.id}
+                    href={`/products/${variant.slug}`}
+                    className="rounded-xl border border-charcoal-200 p-3 transition hover:border-gold-500"
+                  >
+                    <div className="relative aspect-square overflow-hidden rounded-lg bg-charcoal-50">
+                      {variant.images[0] && (
+                        <Image
+                          src={variant.images[0].imageUrl}
+                          alt={variant.modelName ?? variant.name}
+                          fill
+                          sizes="(max-width: 640px) 50vw, 200px"
+                          className="object-contain p-2"
+                        />
+                      )}
+                    </div>
+
+                    <p className="mt-2 text-sm font-semibold">
+                      {variant.modelName}
+                    </p>
+
+                    <p className="text-sm text-charcoal-500">
+                      ₹{variant.price.toLocaleString("en-IN")}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
 
           {product.features.length > 0 && (
             <div className="mt-4 flex flex-wrap gap-2">
@@ -136,10 +224,10 @@ export default async function ProductDetailPage({ params }: PageProps) {
         <FaqAccordion items={[]} />
       </section>
 
-      {relatedProducts.length > 0 && (
+      {otherProducts.length > 0 && (
         <section className="mt-16">
           <h2 className="mb-6">You May Also Like</h2>
-          <ProductGrid products={relatedProducts} />
+          <ProductGrid products={otherProducts} />
         </section>
       )}
 

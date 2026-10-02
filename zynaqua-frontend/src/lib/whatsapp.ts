@@ -24,8 +24,15 @@ export function floatingWhatsAppMessage(): string {
   return "Hello ZynAqua, I would like to enquire about your water purifiers.";
 }
 
-export function productWhatsAppMessage(productName: string): string {
-  return `Hello ZynAqua, I am interested in ${productName}. Please share more details.`;
+export function productWhatsAppMessage(
+  productName: string,
+  modelName?: string | null
+): string {
+  const product = modelName
+    ? `${productName} - ${modelName}`
+    : productName;
+
+  return `Hello ZynAqua, I am interested in ${product}. Please share more details.`;
 }
 
 /** AMC page WhatsApp CTA. */
