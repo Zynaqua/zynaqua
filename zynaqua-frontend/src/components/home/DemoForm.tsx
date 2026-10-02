@@ -55,58 +55,69 @@ export function DemoForm() {
   };
 
   return (
-    <Card className="w-full max-w-md">
-      <CardBody>
-        <h3>Book a Free Demo</h3>
-        <p className="mt-1 text-sm">Get expert-fitted RO purification at your home.</p>
+    <Card className="w-full max-w-[720px] rounded-[20px] border-charcoal-100 shadow-[0_4px_20px_rgba(17,17,19,0.06)]">
+      <CardBody className="p-5 sm:p-8">
+        <h3 className="text-center">Book a Free Demo</h3>
+        <p className="mt-1 text-center text-sm">Get expert-fitted RO purification at your home.</p>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-5 space-y-4" noValidate>
-          <Input
-            id="name"
-            label="Full Name"
-            placeholder="Rahul Sharma"
-            error={errors.name?.message}
-            {...register("name")}
-          />
-          <Input
-            id="mobile"
-            label="Mobile Number"
-            placeholder="9876543210"
-            inputMode="numeric"
-            error={errors.mobile?.message}
-            {...register("mobile")}
-          />
-          <Input
-            id="email"
-            label="Email (optional)"
-            placeholder="rahul@example.com"
-            error={errors.email?.message}
-            {...register("email")}
-          />
-          <div className="grid grid-cols-1 gap-3 xs:grid-cols-2">
-            <Input
-              id="city"
-              label="City"
-              placeholder="Surat"
-              error={errors.city?.message}
-              {...register("city")}
-            />
-            <Input
-              id="pincode"
-              label="Pincode"
-              placeholder="395007"
-              inputMode="numeric"
-              error={errors.pincode?.message}
-              {...register("pincode")}
-            />
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4" noValidate>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="space-y-4">
+              <Input
+                id="name"
+                label="Full Name"
+                placeholder="Rahul Sharma"
+                error={errors.name?.message}
+                className="h-[52px] rounded-xl px-4 py-2.5 text-base"
+                {...register("name")}
+              />
+              <Input
+                id="mobile"
+                label="Mobile Number"
+                placeholder="9876543210"
+                inputMode="numeric"
+                error={errors.mobile?.message}
+                className="h-[52px] rounded-xl px-4 py-2.5 text-base"
+                {...register("mobile")}
+              />
+              <Input
+                id="email"
+                label="Email (optional)"
+                placeholder="rahul@example.com"
+                error={errors.email?.message}
+                className="h-[52px] rounded-xl px-4 py-2.5 text-base"
+                {...register("email")}
+              />
+            </div>
+
+            <div className="space-y-4">
+              <Input
+                id="city"
+                label="City"
+                placeholder="Surat"
+                error={errors.city?.message}
+                className="h-[52px] rounded-xl px-4 py-2.5 text-base"
+                {...register("city")}
+              />
+              <Input
+                id="pincode"
+                label="Pincode"
+                placeholder="395007"
+                inputMode="numeric"
+                error={errors.pincode?.message}
+                className="h-[52px] rounded-xl px-4 py-2.5 text-base"
+                {...register("pincode")}
+              />
+              <Textarea
+                id="address"
+                label="Address"
+                placeholder="Flat / House no, street, area"
+                error={errors.address?.message}
+                className="h-[108px] resize-none rounded-xl px-4 py-2.5 text-base"
+                {...register("address")}
+              />
+            </div>
           </div>
-          <Textarea
-            id="address"
-            label="Address"
-            placeholder="Flat / House no, street, area"
-            error={errors.address?.message}
-            {...register("address")}
-          />
 
           {serverError && (
             <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">
@@ -122,7 +133,7 @@ export function DemoForm() {
 
           <Button
             type="submit"
-            className="w-full"
+            className="h-[52px] w-full rounded-xl"
             isLoading={submitState === "submitting"}
           >
             Book Free Demo
