@@ -86,6 +86,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
     (item) => item.name !== product.name
   );
 
+  const primaryImage = product.images.find((image) => image.isPrimary) ?? product.images[0];
   const whatsappUrl = buildWhatsAppUrl(
     productWhatsAppMessage(product.name, product.modelName)
   );
@@ -136,9 +137,9 @@ export default async function ProductDetailPage({ params }: PageProps) {
               <div className="grid grid-cols-2 gap-3">
                 <div className="rounded-xl border-2 border-gold-500 p-3">
                   <div className="relative aspect-square overflow-hidden rounded-lg bg-charcoal-50">
-                    {product.images[0] && (
+                    {primaryImage && (
                       <Image
-                        src={product.images[0].imageUrl}
+                        src={primaryImage.imageUrl}
                         alt={product.modelName ?? product.name}
                         fill
                         sizes="(max-width: 640px) 50vw, 200px"
@@ -156,33 +157,38 @@ export default async function ProductDetailPage({ params }: PageProps) {
                   </p>
                 </div>
 
-                {modelVariants.map((variant) => (
-                  <Link
-                    key={variant.id}
-                    href={`/products/${variant.slug}`}
-                    className="rounded-xl border border-charcoal-200 p-3 transition hover:border-gold-500"
-                  >
-                    <div className="relative aspect-square overflow-hidden rounded-lg bg-charcoal-50">
-                      {variant.images[0] && (
-                        <Image
-                          src={variant.images[0].imageUrl}
-                          alt={variant.modelName ?? variant.name}
-                          fill
-                          sizes="(max-width: 640px) 50vw, 200px"
-                          className="object-contain p-2"
-                        />
-                      )}
-                    </div>
+                {modelVariants.map((variant) => {
+                  const variantPrimaryImage =
+                    variant.images.find((image) => image.isPrimary) ?? variant.images[0];
 
-                    <p className="mt-2 text-sm font-semibold">
-                      {variant.modelName}
-                    </p>
+                  return (
+                    <Link
+                      key={variant.id}
+                      href={`/products/${variant.slug}`}
+                      className="rounded-xl border border-charcoal-200 p-3 transition hover:border-gold-500"
+                    >
+                      <div className="relative aspect-square overflow-hidden rounded-lg bg-charcoal-50">
+                        {variantPrimaryImage && (
+                          <Image
+                            src={variantPrimaryImage.imageUrl}
+                            alt={variant.modelName ?? variant.name}
+                            fill
+                            sizes="(max-width: 640px) 50vw, 200px"
+                            className="object-contain p-2"
+                          />
+                        )}
+                      </div>
 
-                    <p className="text-sm text-charcoal-500">
-                      ₹{variant.price.toLocaleString("en-IN")}
-                    </p>
-                  </Link>
-                ))}
+                      <p className="mt-2 text-sm font-semibold">
+                        {variant.modelName}
+                      </p>
+
+                      <p className="text-sm text-charcoal-500">
+                        ₹{variant.price.toLocaleString("en-IN")}
+                      </p>
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           )}
