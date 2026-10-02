@@ -6,6 +6,7 @@ import java.util.List;
 public record ProductResponseDTO(
         Long id,
         String name,
+        String modelName,
         String slug,
         String shortDescription,
         String description,

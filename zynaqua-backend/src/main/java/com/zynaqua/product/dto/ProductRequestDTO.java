@@ -16,6 +16,9 @@ public class ProductRequestDTO {
     @Size(max = 150)
     private String name;
 
+    @Size(max = 100)
+    private String modelName;
+
     @Size(max = 180)
     private String slug;
 
