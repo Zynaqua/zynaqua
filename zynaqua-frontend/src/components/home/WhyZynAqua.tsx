@@ -34,7 +34,7 @@ export function WhyZynAqua() {
       {REASONS.map((reason) => (
         <div
           key={reason.title}
-          className="rounded-xl border border-charcoal-100 bg-white p-5 shadow-card"
+          className="rounded-xl border border-charcoal-100 bg-white p-4 shadow-card"
         >
           <div
             className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-gold-500/15 text-charcoal-950"
@@ -45,7 +45,7 @@ export function WhyZynAqua() {
 
           <h4 className="text-lg">{reason.title}</h4>
 
-          <p className="mt-2 text-sm">{reason.desc}</p>
+          <p className="mt-2 text-xs leading-5">{reason.desc}</p>
         </div>
       ))}
     </div>
