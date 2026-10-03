@@ -1,5 +1,6 @@
 package com.zynaqua.product.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -36,6 +37,7 @@ public class ProductRequestDTO {
     @Size(max = 100)
     private String category;
 
+    @JsonProperty("isFeatured")
     private boolean isFeatured;
 
     @Valid
