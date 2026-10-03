@@ -2,6 +2,9 @@ HELP.md
 target/
 .env
 application-local.yml
+
+# Local development configuration
+src/main/resources/application-local.yml
 *.log
 .idea/
 *.iml
