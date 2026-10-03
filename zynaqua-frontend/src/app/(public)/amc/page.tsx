@@ -51,7 +51,7 @@ export default function AmcPage() {
       {/* Why AMC? */}
       <section className="mt-16">
         <h2 className="mb-4">Why AMC?</h2>
-        <p>
+        <p className="text-sm leading-6 md:text-base md:leading-relaxed">
           Purification performance depends on filters and membranes being
           replaced on schedule. Without regular servicing, even a well-built
           purifier gradually loses effectiveness — an AMC plan removes the
@@ -67,7 +67,7 @@ export default function AmcPage() {
             <Card key={benefit.title}>
               <CardBody>
                 <h4>{benefit.title}</h4>
-                <p className="mt-1 text-sm">{benefit.desc}</p>
+                <p className="mt-1 text-sm leading-6">{benefit.desc}</p>
               </CardBody>
             </Card>
           ))}
@@ -77,7 +77,7 @@ export default function AmcPage() {
       {/* Maintenance */}
       <section className="mt-12">
         <h2 className="mb-4">Maintenance</h2>
-        <p>
+        <p className="text-sm leading-6 md:text-base md:leading-relaxed">
           Scheduled visits check purification performance, tank condition,
           and overall system health — catching small issues before they
           affect your water quality.
@@ -87,7 +87,7 @@ export default function AmcPage() {
       {/* Filter Replacement */}
       <section className="mt-12">
         <h2 className="mb-4">Filter Replacement</h2>
-        <p>
+        <p className="text-sm leading-6 md:text-base md:leading-relaxed">
           Filters and membranes are replaced on a schedule appropriate to
           your specific purifier model, included as part of your AMC plan —
           no separate charge at the time of replacement.
@@ -97,7 +97,7 @@ export default function AmcPage() {
       {/* Genuine Parts */}
       <section className="mt-12">
         <h2 className="mb-4">Genuine Parts</h2>
-        <p>
+        <p className="text-sm leading-6 md:text-base md:leading-relaxed">
           Every replacement part used during an AMC service visit is
           manufacturer-approved — never a generic substitute.
         </p>
@@ -106,7 +106,7 @@ export default function AmcPage() {
       {/* Service Support */}
       <section className="mt-12">
         <h2 className="mb-4">Service Support</h2>
-        <p>
+        <p className="text-sm leading-6 md:text-base md:leading-relaxed">
           AMC customers can reach us directly on WhatsApp between scheduled
           visits if something needs attention sooner.
         </p>
@@ -123,7 +123,7 @@ export default function AmcPage() {
               </span>
               <div>
                 <h4>{item.title}</h4>
-                <p className="mt-1 text-sm">{item.desc}</p>
+                <p className="mt-1 text-sm leading-6">{item.desc}</p>
               </div>
             </div>
           ))}

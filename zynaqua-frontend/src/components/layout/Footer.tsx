@@ -35,7 +35,7 @@ const SOCIAL_LINKS = [
 export function Footer() {
   return (
     <footer className="border-t border-charcoal-100 bg-charcoal-950 text-charcoal-100">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-6 py-14 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-x-10 gap-y-8 px-6 py-14 sm:grid-cols-2 lg:grid-cols-4">
 
         {/* Brand */}
         <div>
