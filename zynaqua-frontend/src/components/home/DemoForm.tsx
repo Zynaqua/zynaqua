@@ -57,7 +57,7 @@ export function DemoForm() {
   return (
     <Card className="w-full max-w-[720px] rounded-[20px] border-charcoal-100 shadow-[0_4px_20px_rgba(17,17,19,0.06)]">
       <CardBody className="p-5 sm:p-8">
-        <h3 className="text-center">Book a Free Demo</h3>
+        <h3 className="text-center text-2xl md:text-3xl">Book a Free Demo</h3>
         <p className="mt-1 text-center text-sm">Get expert-fitted RO purification at your home.</p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4" noValidate>
