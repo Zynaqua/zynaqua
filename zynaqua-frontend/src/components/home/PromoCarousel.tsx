@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const SLIDES = [
@@ -21,12 +22,24 @@ export function PromoCarousel() {
 
   return (
     <div className="w-full">
-      <div className="w-full overflow-hidden" aria-live="polite">
-        <img
-          src={SLIDES[active].image}
-          alt={SLIDES[active].alt}
-          className="block h-auto w-full"
-        />
+      <div className="relative h-52 w-full overflow-hidden bg-white md:h-96" aria-live="polite">
+        {SLIDES.map((slide, index) => (
+          <div
+            key={slide.id}
+            className={`absolute inset-0 transition-opacity duration-500 ${
+              index === active ? "opacity-100" : "pointer-events-none opacity-0"
+            }`}
+          >
+            <Image
+              src={slide.image}
+              alt={slide.alt}
+              fill
+              sizes="(max-width: 768px) 100vw, 1152px"
+              className="object-contain"
+              priority={index === 0}
+            />
+          </div>
+        ))}
       </div>
       <div className="mt-3 flex justify-center gap-2">
         {SLIDES.map((slide, i) => (
