@@ -37,9 +37,11 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
 
       <CardBody className="flex flex-1 flex-col">
         <div>
-          <h4>{product.name}</h4>
+          <h4 className="text-sm font-semibold md:text-xl">
+            {product.name}
+          </h4>
           {product.modelName && (
-            <p className="mt-1 text-sm font-medium text-charcoal-500">
+            <p className="mt-1 text-xs font-medium text-charcoal-500 md:text-sm">
               {product.modelName}
             </p>
           )}
@@ -59,7 +61,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
         )}
 
         <div className="mt-4 flex items-baseline gap-2">
-          <span className="text-lg font-bold text-charcoal-950">
+          <span className="text-sm font-bold text-charcoal-950 md:text-lg">
             ₹{product.price.toLocaleString("en-IN")}
           </span>
           {product.mrp && product.mrp > product.price && (
@@ -71,10 +73,22 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
 
         <div className="mt-4 grid grid-cols-2 gap-2">
           <Link href={`/products/${product.slug}`}>
-            <Button variant="outline" size="sm" className="w-full">View Details</Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-9 w-full px-2 text-xs md:h-auto md:px-3 md:py-1.5 md:text-sm"
+            >
+              View Details
+            </Button>
           </Link>
           <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-            <Button variant="whatsapp" size="sm" className="w-full">WhatsApp</Button>
+            <Button
+              variant="whatsapp"
+              size="sm"
+              className="h-9 w-full px-2 text-xs md:h-auto md:px-3 md:py-1.5 md:text-sm"
+            >
+              WhatsApp
+            </Button>
           </a>
         </div>
       </CardBody>
