@@ -60,14 +60,14 @@ export default function ContactPage() {
 
       <section className="mt-12">
         <h2 className="mb-4">Follow Us</h2>
-        <div className="flex flex-wrap gap-3">
+        <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
           {SOCIAL_LINKS.map((social) => (
             <a
               key={social.label}
               href={social.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg border border-charcoal-100 px-4 py-2 text-sm font-medium text-charcoal-700 hover:bg-charcoal-50"
+              className="rounded-lg border border-charcoal-100 px-4 py-2 text-center text-sm font-medium text-charcoal-700 hover:bg-charcoal-50"
             >
               {social.label}
             </a>
