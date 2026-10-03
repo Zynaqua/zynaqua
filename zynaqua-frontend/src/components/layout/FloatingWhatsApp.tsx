@@ -9,7 +9,7 @@ export function FloatingWhatsApp() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with ZynAqua on WhatsApp"
-      className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-elevated transition-transform duration-200 hover:scale-105"
+      className="fixed bottom-20 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-elevated transition-transform duration-200 hover:scale-105 md:bottom-6 md:right-6"
     >
       {/* Inline WhatsApp glyph — no external icon library needed for one icon */}
       <svg width="28" height="28" viewBox="0 0 24 24" fill="white" aria-hidden="true">
