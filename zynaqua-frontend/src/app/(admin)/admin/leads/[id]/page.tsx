@@ -9,8 +9,12 @@ import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { adminApi } from "@/lib/adminApi";
-import { Button, Card, CardBody, Badge, Select } from "@/components/ui";
-import { buildWhatsAppUrl } from "@/lib/whatsapp";
+import { Alert, Button, ButtonLink, Card, CardBody, Badge, Select, StatusBadge } from "@/components/ui";
+import { buildCustomerWhatsAppUrl, buildPhoneUrl } from "@/lib/whatsapp";
+import { AdminPage } from "@/components/admin/AdminPage";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { ENQUIRY_TYPE_LABEL, LEAD_STATUS_META, SOURCE_LABEL } from "@/lib/status";
+import { formatDate } from "@/lib/format";
 import type { EnquiryStatus } from "@/types";
 
 interface LeadDetail {
@@ -99,49 +103,48 @@ export default function LeadDetailPage({ params }: PageProps) {
 
   if (error) {
     return (
-      <div className="mx-auto max-w-2xl px-6 py-10">
-        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>
+      <AdminPage className="max-w-2xl">
+        <Alert variant="error">{error}</Alert>
         <Link href="/admin/leads" className="mt-4 inline-block text-sm underline">Back to Leads</Link>
-      </div>
+      </AdminPage>
     );
   }
 
   if (!lead) {
-    return <div className="mx-auto max-w-2xl px-6 py-10 text-charcoal-400">Loading…</div>;
+    return <AdminPage className="max-w-2xl"><p className="text-charcoal-400">Loading…</p></AdminPage>;
   }
 
-  const whatsappUrl = buildWhatsAppUrl(
+  const whatsappUrl = buildCustomerWhatsAppUrl(lead.customerMobile,
     `Hello ${lead.customerName}, this is ZynAqua following up on your enquiry.`
   );
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-10">
+    <AdminPage className="max-w-4xl">
       <Link href="/admin/leads" className="text-sm text-charcoal-400 hover:text-charcoal-950">
         ← Back to Leads
       </Link>
 
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <h1>{lead.customerName}</h1>
-          <Badge variant="gold">{lead.enquiryType.replace(/_/g, " ")}</Badge>
-          <Badge variant={lead.source === "OFFLINE" ? "aqua" : "neutral"}>
-            {lead.source === "OFFLINE" ? "Offline" : "Online"}
-          </Badge>
-        </div>
-        <div className="flex gap-2">
-          <Link href={`/admin/leads/${id}/edit`}>
-            <Button variant="outline" size="sm">Edit Lead</Button>
-          </Link>
-          <Button variant="ghost" size="sm" isLoading={isDeleting} onClick={handleDelete}>
-            Delete
-          </Button>
+      <div className="mt-4">
+        <AdminPageHeader
+          title={lead.customerName}
+          description={`${ENQUIRY_TYPE_LABEL[lead.enquiryType as keyof typeof ENQUIRY_TYPE_LABEL] ?? lead.enquiryType} · ${formatDate(lead.createdAt)}`}
+          actions={
+            <>
+              <Link href={`/admin/leads/${id}/edit`}><Button variant="outline" size="sm">Edit Lead</Button></Link>
+              <Button variant="ghost" size="sm" isLoading={isDeleting} onClick={handleDelete}>Delete</Button>
+            </>
+          }
+        />
+        <div className="mt-3 flex flex-wrap gap-2">
+          <StatusBadge status={lead.status} />
+          <Badge variant={lead.source === "OFFLINE" ? "aqua" : "neutral"}>{SOURCE_LABEL[lead.source]}</Badge>
         </div>
       </div>
 
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Card><CardBody>
           <p className="text-sm font-medium text-charcoal-400">Mobile</p>
-          <p className="mt-1 font-semibold text-charcoal-950">{lead.customerMobile}</p>
+          <a href={buildPhoneUrl(lead.customerMobile)} className="mt-1 inline-flex min-h-11 items-center break-all font-semibold text-charcoal-950 underline">{lead.customerMobile}</a>
         </CardBody></Card>
         <Card><CardBody>
           <p className="text-sm font-medium text-charcoal-400">Email</p>
@@ -149,7 +152,7 @@ export default function LeadDetailPage({ params }: PageProps) {
         </CardBody></Card>
         <Card><CardBody>
           <p className="text-sm font-medium text-charcoal-400">City / Pincode</p>
-          <p className="mt-1 font-semibold text-charcoal-950">{lead.customerCity} — {lead.customerPincode}</p>
+          <p className="mt-1 break-words font-semibold text-charcoal-950">{lead.customerCity} — {lead.customerPincode}</p>
         </CardBody></Card>
         <Card><CardBody>
           <p className="text-sm font-medium text-charcoal-400">Product</p>
@@ -159,13 +162,13 @@ export default function LeadDetailPage({ params }: PageProps) {
 
       <Card className="mt-4"><CardBody>
         <p className="text-sm font-medium text-charcoal-400">Address</p>
-        <p className="mt-1 text-charcoal-950">{lead.customerAddress}</p>
+        <p className="mt-1 break-words text-charcoal-950">{lead.customerAddress}</p>
       </CardBody></Card>
 
       {lead.message && (
         <Card className="mt-4"><CardBody>
           <p className="text-sm font-medium text-charcoal-400">Message</p>
-          <p className="mt-1 text-charcoal-950">{lead.message}</p>
+          <p className="mt-1 break-words text-charcoal-950">{lead.message}</p>
         </CardBody></Card>
       )}
 
@@ -180,7 +183,7 @@ export default function LeadDetailPage({ params }: PageProps) {
             className="w-auto"
           >
             {STATUS_OPTIONS.map((s) => (
-              <option key={s} value={s}>{s.replace(/_/g, " ")}</option>
+              <option key={s} value={s}>{LEAD_STATUS_META[s].label}</option>
             ))}
           </Select>
           <Button
@@ -195,13 +198,9 @@ export default function LeadDetailPage({ params }: PageProps) {
       </CardBody></Card>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <a href={`tel:+91${lead.customerMobile}`}>
-          <Button variant="outline">Call</Button>
-        </a>
-        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-          <Button variant="whatsapp">WhatsApp</Button>
-        </a>
+        <ButtonLink href={buildPhoneUrl(lead.customerMobile)} variant="outline">Call</ButtonLink>
+        <ButtonLink href={whatsappUrl} variant="whatsapp" external>WhatsApp</ButtonLink>
       </div>
-    </div>
+    </AdminPage>
   );
 }

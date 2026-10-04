@@ -11,3 +11,4 @@ export * from "./Container";
 export * from "./Section";
 export * from "./Sheet";
 export * from "./StatusBadge";
+export * from "./Alert";

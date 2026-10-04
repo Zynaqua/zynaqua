@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { adminApi, AdminApiError } from "@/lib/adminApi";
-import { Button, Input, Textarea, Checkbox, Card, CardBody } from "@/components/ui";
+import { Alert, Button, Input, Textarea, Checkbox, Card, CardBody } from "@/components/ui";
 
 interface ImageRow { imageUrl: string; altText: string; displayOrder: number; isPrimary: boolean; }
 interface FeatureRow { featureName: string; featureValue: string; displayOrder: number; }
@@ -96,7 +96,7 @@ export function ProductForm({ initialValues, productId }: ProductFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {error && <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
+      {error && <Alert variant="error">{error}</Alert>}
 
       <Card><CardBody className="space-y-4">
         <h3>Basic Details</h3>
@@ -123,8 +123,8 @@ export function ProductForm({ initialValues, productId }: ProductFormProps) {
         <Input label="Short Description" value={values.shortDescription} onChange={(e) => update("shortDescription", e.target.value)} />
         <Textarea label="Full Description" value={values.description} onChange={(e) => update("description", e.target.value)} />
         <div className="grid grid-cols-2 gap-4">
-          <Input label="Price (₹)" type="number" required value={values.price} onChange={(e) => update("price", e.target.value)} />
-          <Input label="MRP (₹, optional)" type="number" value={values.mrp} onChange={(e) => update("mrp", e.target.value)} />
+          <Input label="Price (₹)" type="number" inputMode="numeric" required value={values.price} onChange={(e) => update("price", e.target.value)} />
+          <Input label="MRP (₹, optional)" type="number" inputMode="numeric" value={values.mrp} onChange={(e) => update("mrp", e.target.value)} />
         </div>
         <Input label="Category" value={values.category} onChange={(e) => update("category", e.target.value)} />
         <Checkbox

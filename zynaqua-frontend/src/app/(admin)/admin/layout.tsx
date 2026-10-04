@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { isAuthenticated } from "@/lib/auth";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
@@ -16,6 +16,7 @@ export default function AdminRouteGroupLayout({
   const router = useRouter();
   const [checked, setChecked] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   const isPublicAdminRoute = PUBLIC_ADMIN_ROUTES.includes(pathname ?? "");
 
@@ -35,6 +36,10 @@ export default function AdminRouteGroupLayout({
     setIsMobileSidebarOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    if (!isMobileSidebarOpen) menuButtonRef.current?.focus();
+  }, [isMobileSidebarOpen]);
+
   if (isPublicAdminRoute) {
     return <div className="admin min-h-screen bg-charcoal-50">{children}</div>;
   }
@@ -51,14 +56,15 @@ export default function AdminRouteGroupLayout({
       <div className="flex min-h-screen min-w-0 flex-1 flex-col">
         {/* Mobile-only top bar — invisible at md+ where the sidebar is
             always visible and this control would be redundant. */}
-        <div className="flex items-center justify-between border-b border-charcoal-100 bg-white px-4 py-3 md:hidden">
+        <div className="flex items-center justify-between border-b border-charcoal-100 bg-white px-4 py-3 lg:hidden">
           <span className="text-base font-extrabold text-charcoal-950">
             Zyn<span className="text-gold-500">Aqua</span>
           </span>
           <button
+            ref={menuButtonRef}
             aria-label="Open menu"
             onClick={() => setIsMobileSidebarOpen(true)}
-            className="p-2"
+            className="flex h-11 w-11 items-center justify-center rounded-lg p-2"
           >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path strokeLinecap="round" d="M4 6h16M4 12h16M4 18h16" />

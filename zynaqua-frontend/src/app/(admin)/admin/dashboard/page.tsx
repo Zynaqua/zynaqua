@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { AdminPage } from "@/components/admin/AdminPage";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { Alert, ButtonLink } from "@/components/ui";
 import { adminApi } from "@/lib/adminApi";
 import { StatCard } from "@/components/admin/StatCard";
 import { LeadTable, type LeadListItem } from "@/components/admin/LeadTable";
@@ -20,20 +23,21 @@ interface DashboardStats {
 export default function AdminDashboardPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const load = () => {
+    setError(null);
+    adminApi.get<DashboardStats>("/admin/dashboard/stats").then(setStats).catch((err) => setError(err.message ?? "Failed to load dashboard"));
+  };
 
   useEffect(() => {
-    adminApi
-      .get<DashboardStats>("/admin/dashboard/stats")
-      .then(setStats)
-      .catch((err) => setError(err.message ?? "Failed to load dashboard"));
+    load();
   }, []);
 
   return (
-    <div className="mx-auto w-full max-w-[1200px] px-4 py-10 sm:px-6">
-      <h1>Admin Dashboard</h1>
+    <AdminPage>
+      <AdminPageHeader title="Admin Dashboard" description="A quick view of your enquiries and sales pipeline." actions={<ButtonLink href="/admin/leads">View all leads</ButtonLink>} />
 
       {error && (
-        <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>
+        <div className="mt-4"><Alert variant="error" title="Unable to load dashboard">{error}<button className="ml-3 min-h-11 underline" onClick={load}>Retry</button></Alert></div>
       )}
 
       {!stats && !error && (
@@ -66,6 +70,6 @@ export default function AdminDashboardPage() {
           </div>
         </>
       )}
-    </div>
+    </AdminPage>
   );
 }

@@ -14,8 +14,15 @@ export function buildWhatsAppUrl(message: string): string {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`;
 }
 
-export function buildPhoneUrl(): string {
-  return `tel:+91${WHATSAPP_NUMBER ?? ""}`;
+export function buildPhoneUrl(mobile?: string): string {
+  const digits = (mobile ?? WHATSAPP_NUMBER ?? "").replace(/\D/g, "");
+  return `tel:+${digits.length === 10 ? `91${digits}` : digits}`;
+}
+
+export function buildCustomerWhatsAppUrl(mobile: string, message: string): string {
+  const digits = mobile.replace(/\D/g, "");
+  const number = digits.length === 10 ? `91${digits}` : digits;
+  return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
 }
 
 export function displayPhoneNumber(): string {
