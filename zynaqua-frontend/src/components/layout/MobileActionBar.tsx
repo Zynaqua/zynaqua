@@ -1,4 +1,7 @@
+"use client";
+
 import { ButtonLink } from "@/components/ui";
+import { usePathname } from "next/navigation";
 import { DemoButton } from "@/components/home/DemoButton";
 import {
   buildPhoneUrl,
@@ -8,6 +11,9 @@ import {
 } from "@/lib/whatsapp";
 
 export function MobileActionBar() {
+  const pathname = usePathname();
+  if (/^\/products\/[^/]+$/.test(pathname)) return null;
+
   return (
     <nav
       aria-label="Quick actions"

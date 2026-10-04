@@ -36,7 +36,7 @@ export function WhyZynAqua() {
         <Card
           key={reason.title}
           accentTop
-          className="group transition-shadow md:hover:shadow-card-hover"
+          className="group"
         >
           <CardBody>
             <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-gold-400/30 text-charcoal-950 transition-colors group-hover:bg-gold-500" aria-hidden="true">

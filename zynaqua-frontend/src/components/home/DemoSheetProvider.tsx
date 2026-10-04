@@ -20,8 +20,16 @@ export function useDemoSheet() {
 
 export function DemoSheetProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [session, setSession] = useState(0);
   const value = useMemo(
-    () => ({ isOpen, open: () => setIsOpen(true), close: () => setIsOpen(false) }),
+    () => ({
+      isOpen,
+      open: () => {
+        setSession((current) => current + 1);
+        setIsOpen(true);
+      },
+      close: () => setIsOpen(false),
+    }),
     [isOpen]
   );
 
@@ -40,7 +48,7 @@ export function DemoSheetProvider({ children }: { children: ReactNode }) {
         title="Book a Free Demo"
         description="Get expert-fitted RO purification at your home."
       >
-        <DemoForm mode="sheet" onSuccess={() => undefined} onDone={value.close} />
+        <DemoForm key={session} mode="sheet" onSuccess={() => undefined} onDone={value.close} />
       </Sheet>
     </DemoSheetContext.Provider>
   );

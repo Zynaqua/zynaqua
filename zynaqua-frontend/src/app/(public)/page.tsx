@@ -19,8 +19,8 @@ export default function HomePage() {
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-gold-700">
               Premium Water Purifiers
             </p>
-            <h1 className="max-w-xl text-[2.5rem] leading-[1.08] md:text-6xl">
-              Premium Water Purifiers for Your Home
+            <h1 className="max-w-xl text-[2.5rem] leading-[1.08] md:text-5xl lg:text-[3.5rem]">
+              Pure water, designed for your home.
             </h1>
             <p className="mt-5 max-w-xl text-base leading-7 text-charcoal-700">
               RO + Alkaline purification, free installation, and reliable after-sales
@@ -61,7 +61,6 @@ export default function HomePage() {
               priority
               fetchPriority="high"
               sizes="(max-width: 1024px) 80vw, 42vw"
-              style={{ maxHeight: "560px" }}
             />
           </div>
         </div>

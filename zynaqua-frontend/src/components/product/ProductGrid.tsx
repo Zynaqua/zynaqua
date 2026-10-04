@@ -9,7 +9,7 @@ interface ProductGridProps {
 export function ProductGrid({ products, groupByCategory = false }: ProductGridProps) {
   if (!groupByCategory) {
     return (
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3">
         {products.map((product, index) => (
           <ProductCard key={product.id} product={product} priority={index < 3} />
         ))}
@@ -30,7 +30,7 @@ export function ProductGrid({ products, groupByCategory = false }: ProductGridPr
       {Object.entries(grouped).map(([category, items]) => (
         <section key={category}>
           <h3 className="mb-5">{category}</h3>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3">
             {items.map((product) => {
               const isPriority = renderedCount < 3;
               renderedCount++;
