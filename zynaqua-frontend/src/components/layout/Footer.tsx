@@ -1,7 +1,9 @@
 
 import Link from "next/link";
 import {
+  buildPhoneUrl,
   buildWhatsAppUrl,
+  displayPhoneNumber,
   navbarWhatsAppMessage,
 } from "@/lib/whatsapp";
 
@@ -80,7 +82,16 @@ export function Footer() {
           </h5>
 
           <ul className="space-y-2 text-sm text-footer">
-            <li>WhatsApp: +91 92271 19282</li>
+            <li>
+              <a href={buildPhoneUrl()} className="inline-flex min-h-11 items-center hover:text-white">
+                {displayPhoneNumber()}
+              </a>
+            </li>
+            <li>
+              <a href={buildWhatsAppUrl(navbarWhatsAppMessage())} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center hover:text-white">
+                WhatsApp
+              </a>
+            </li>
             <li>Surat, Gujarat, India</li>
           </ul>
         </div>
@@ -98,7 +109,7 @@ export function Footer() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-footer hover:text-white"
+                  className="inline-flex min-h-11 items-center text-sm text-footer hover:text-white"
                 >
                   {link.label}
                 </a>
@@ -121,14 +132,14 @@ export function Footer() {
           <div className="flex gap-4">
             <Link
               href="/privacy-policy"
-              className="hover:text-white"
+              className="inline-flex min-h-11 items-center hover:text-white"
             >
               Privacy Policy
             </Link>
 
             <Link
               href="/terms"
-              className="hover:text-white"
+              className="inline-flex min-h-11 items-center hover:text-white"
             >
               Terms &amp; Conditions
             </Link>

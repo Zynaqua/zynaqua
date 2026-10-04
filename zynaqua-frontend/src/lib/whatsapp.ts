@@ -14,6 +14,14 @@ export function buildWhatsAppUrl(message: string): string {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`;
 }
 
+export function buildPhoneUrl(): string {
+  return `tel:+91${WHATSAPP_NUMBER ?? ""}`;
+}
+
+export function displayPhoneNumber(): string {
+  return "+91 92271 19282";
+}
+
 /** Navbar "WhatsApp Us" CTA — generic brand-level enquiry. */
 export function navbarWhatsAppMessage(): string {
   return "Hello ZynAqua, I would like to know more about your products.";
