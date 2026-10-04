@@ -46,7 +46,7 @@ export default function ContactPage() {
                   href={detail.href}
                   target={detail.href.startsWith("http") ? "_blank" : undefined}
                   rel={detail.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="mt-1 block text-lg font-semibold text-charcoal-950 hover:text-gold-600"
+                  className="mt-1 block text-lg font-semibold text-charcoal-950 hover:text-gold-700"
                 >
                   {detail.value}
                 </a>

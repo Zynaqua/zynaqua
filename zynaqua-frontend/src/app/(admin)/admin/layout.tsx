@@ -36,13 +36,13 @@ export default function AdminRouteGroupLayout({
   }, [pathname]);
 
   if (isPublicAdminRoute) {
-    return <div className="min-h-screen bg-charcoal-50">{children}</div>;
+    return <div className="admin min-h-screen bg-charcoal-50">{children}</div>;
   }
 
   if (!checked) return null;
 
   return (
-    <div className="flex min-h-screen bg-charcoal-50">
+    <div className="admin flex min-h-screen bg-charcoal-50">
       <AdminSidebar
         isMobileOpen={isMobileSidebarOpen}
         onMobileClose={() => setIsMobileSidebarOpen(false)}

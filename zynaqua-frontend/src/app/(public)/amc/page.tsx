@@ -118,7 +118,7 @@ export default function AmcPage() {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           {HOW_IT_WORKS.map((item) => (
             <div key={item.step} className="flex gap-4">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gold-500/15 text-sm font-bold text-gold-600">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gold-500/15 text-sm font-bold text-gold-700">
                 {item.step}
               </span>
               <div>

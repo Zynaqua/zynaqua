@@ -46,7 +46,7 @@ export function Footer() {
             </span>
           </span>
 
-          <p className="mt-3 text-sm text-charcoal-400">
+          <p className="mt-3 text-sm text-footer">
             Premium water purifiers built on trust,
             real purification technology, and
             dependable after-sales service.
@@ -64,7 +64,7 @@ export function Footer() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-sm text-charcoal-400 hover:text-white"
+                  className="text-sm text-footer hover:text-white"
                 >
                   {link.label}
                 </Link>
@@ -79,7 +79,7 @@ export function Footer() {
             Contact
           </h5>
 
-          <ul className="space-y-2 text-sm text-charcoal-400">
+          <ul className="space-y-2 text-sm text-footer">
             <li>WhatsApp: +91 92271 19282</li>
             <li>Surat, Gujarat, India</li>
           </ul>
@@ -98,7 +98,7 @@ export function Footer() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-charcoal-400 hover:text-white"
+                  className="text-sm text-footer hover:text-white"
                 >
                   {link.label}
                 </a>
@@ -111,7 +111,7 @@ export function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-charcoal-900 px-6 py-5">
-        <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center justify-between gap-3 px-4 text-xs text-charcoal-400 sm:flex-row sm:px-6">
+        <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center justify-between gap-3 px-4 text-xs text-footer sm:flex-row sm:px-6">
 
           <p>
             &copy; {new Date().getFullYear()} ZynAqua.
