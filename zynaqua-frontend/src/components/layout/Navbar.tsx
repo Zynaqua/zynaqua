@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ButtonLink } from "@/components/ui";
 import { MobileMenu } from "./MobileMenu";
+import { DemoButton } from "@/components/home/DemoButton";
 import {
   buildWhatsAppUrl,
   navbarWhatsAppMessage,
@@ -79,16 +80,9 @@ export function Navbar() {
           </ul>
 
           {/* Desktop WhatsApp */}
-          <div className="hidden md:block">
-            <ButtonLink
-              href={buildWhatsAppUrl(
-                navbarWhatsAppMessage()
-              )}
-              variant="whatsapp"
-              size="sm"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+          <div className="hidden items-center gap-2 md:flex">
+            <DemoButton size="sm">Book Free Demo</DemoButton>
+            <ButtonLink href={buildWhatsAppUrl(navbarWhatsAppMessage())} variant="whatsapp" size="sm" target="_blank" rel="noopener noreferrer">
               WhatsApp Us
             </ButtonLink>
           </div>

@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { ButtonLink } from "@/components/ui";
+import { DemoButton } from "@/components/home/DemoButton";
 import { buildWhatsAppUrl, navbarWhatsAppMessage } from "@/lib/whatsapp";
 
 interface MobileMenuProps {
@@ -74,6 +75,7 @@ export function MobileMenu({ isOpen, onClose, links, pathname, triggerRef }: Mob
         </ul>
 
         <div className="mt-6">
+          <DemoButton className="mb-3 w-full">Book Free Demo</DemoButton>
           <ButtonLink
             href={buildWhatsAppUrl(navbarWhatsAppMessage())}
             variant="whatsapp"

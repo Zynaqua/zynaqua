@@ -7,6 +7,7 @@ interface SectionProps extends Omit<HTMLAttributes<HTMLElement>, "color"> {
   as?: ElementType;
   children: ReactNode;
   containerClassName?: string;
+  padding?: "default" | "hero" | "tail";
 }
 
 export function Section({
@@ -14,13 +15,16 @@ export function Section({
   as: Component = "section",
   className,
   containerClassName,
+  padding = "default",
   children,
   ...props
 }: SectionProps) {
   return (
     <Component
       className={cn(
-        "section-padding",
+        padding === "hero" && "pt-10 pb-8 md:pt-20 md:pb-12",
+        padding === "tail" && "pt-0 pb-12 md:pb-16",
+        padding === "default" && "py-14 md:py-24",
         tone === "warm" && "bg-warm",
         tone === "aqua" && "bg-aqua-50",
         tone === "dark" && "bg-charcoal-950 text-white",

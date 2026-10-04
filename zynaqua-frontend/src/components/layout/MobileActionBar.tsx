@@ -1,4 +1,5 @@
 import { ButtonLink } from "@/components/ui";
+import { DemoButton } from "@/components/home/DemoButton";
 import {
   buildPhoneUrl,
   buildWhatsAppUrl,
@@ -34,15 +35,10 @@ export function MobileActionBar() {
           <span aria-hidden="true" className="text-base leading-none">⌕</span>
           WhatsApp
         </ButtonLink>
-        <ButtonLink
-          href="/#book-demo"
-          variant="primary"
-          size="sm"
-          className="flex-col gap-0.5 px-2 text-xs"
-        >
+        <DemoButton variant="primary" size="sm" className="flex-col gap-0.5 px-2 text-xs">
           <span aria-hidden="true" className="text-base leading-none">＋</span>
           Book Demo
-        </ButtonLink>
+        </DemoButton>
       </div>
     </nav>
   );

@@ -4,6 +4,7 @@ import {
   ShieldCheck,
   Wrench,
 } from "lucide-react";
+import { Card, CardBody } from "@/components/ui";
 
 const REASONS = [
   {
@@ -32,21 +33,19 @@ export function WhyZynAqua() {
   return (
     <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
       {REASONS.map((reason) => (
-        <div
+        <Card
           key={reason.title}
-          className="rounded-xl border border-charcoal-100 bg-white p-4 shadow-card"
+          accentTop
+          className="group transition-shadow md:hover:shadow-card-hover"
         >
-          <div
-            className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-gold-500/15 text-charcoal-950"
-            aria-hidden="true"
-          >
-            <reason.icon size={22} strokeWidth={1.8} />
-          </div>
-
-          <h4 className="text-lg">{reason.title}</h4>
-
-          <p className="mt-2 text-xs leading-5">{reason.desc}</p>
-        </div>
+          <CardBody>
+            <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-gold-400/30 text-charcoal-950 transition-colors group-hover:bg-gold-500" aria-hidden="true">
+              <reason.icon size={22} strokeWidth={1.8} />
+            </div>
+            <h3 className="text-base md:text-lg">{reason.title}</h3>
+            <p className="mt-2 text-sm leading-6">{reason.desc}</p>
+          </CardBody>
+        </Card>
       ))}
     </div>
   );
