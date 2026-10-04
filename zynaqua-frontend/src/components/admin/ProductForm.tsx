@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { adminApi, AdminApiError } from "@/lib/adminApi";
-import { Button, Input, Textarea, Card, CardBody } from "@/components/ui";
+import { Button, Input, Textarea, Checkbox, Card, CardBody } from "@/components/ui";
 
 interface ImageRow { imageUrl: string; altText: string; displayOrder: number; isPrimary: boolean; }
 interface FeatureRow { featureName: string; featureValue: string; displayOrder: number; }
@@ -127,10 +127,11 @@ export function ProductForm({ initialValues, productId }: ProductFormProps) {
           <Input label="MRP (₹, optional)" type="number" value={values.mrp} onChange={(e) => update("mrp", e.target.value)} />
         </div>
         <Input label="Category" value={values.category} onChange={(e) => update("category", e.target.value)} />
-        <label className="flex items-center gap-2 text-sm text-charcoal-700">
-          <input type="checkbox" checked={values.isFeatured} onChange={(e) => update("isFeatured", e.target.checked)} />
-          Featured product (shown on homepage)
-        </label>
+        <Checkbox
+          label="Featured product (shown on homepage)"
+          checked={values.isFeatured}
+          onChange={(e) => update("isFeatured", e.target.checked)}
+        />
       </CardBody></Card>
 
       <Card><CardBody className="space-y-3">

@@ -1,6 +1,7 @@
 "use client";
 
 import type { EnquiryStatus, EnquiryType } from "@/types";
+import { Input, Select } from "@/components/ui";
 
 export interface LeadFilterValues {
   status: EnquiryStatus | "";
@@ -22,13 +23,10 @@ const STATUS_OPTIONS: EnquiryStatus[] = [
 const TYPE_OPTIONS: EnquiryType[] = ["FREE_DEMO", "PRODUCT_ENQUIRY", "AMC", "SERVICE", "GENERAL"];
 
 export function LeadFilters({ values, onChange }: LeadFiltersProps) {
-  const selectClass =
-    "w-full min-w-0 rounded-lg border border-charcoal-100 bg-white px-3 py-2 text-sm text-charcoal-950 focus:outline-none focus:ring-2 focus:ring-charcoal-200 md:w-auto";
-
   return (
     <div className="grid grid-cols-2 gap-3 md:flex md:flex-wrap">
-      <select
-        className={selectClass}
+      <Select
+        containerClassName="min-w-0 md:w-auto"
         value={values.status}
         onChange={(e) => onChange({ ...values, status: e.target.value as EnquiryStatus | "" })}
       >
@@ -36,10 +34,10 @@ export function LeadFilters({ values, onChange }: LeadFiltersProps) {
         {STATUS_OPTIONS.map((s) => (
           <option key={s} value={s}>{s.replace(/_/g, " ")}</option>
         ))}
-      </select>
+      </Select>
 
-      <select
-        className={selectClass}
+      <Select
+        containerClassName="min-w-0 md:w-auto"
         value={values.enquiryType}
         onChange={(e) => onChange({ ...values, enquiryType: e.target.value as EnquiryType | "" })}
       >
@@ -47,18 +45,17 @@ export function LeadFilters({ values, onChange }: LeadFiltersProps) {
         {TYPE_OPTIONS.map((t) => (
           <option key={t} value={t}>{t.replace(/_/g, " ")}</option>
         ))}
-      </select>
+      </Select>
 
-      <input
-        type="text"
+      <Input
         placeholder="City"
         value={values.city}
         onChange={(e) => onChange({ ...values, city: e.target.value })}
-        className={selectClass}
+        containerClassName="min-w-0 md:w-auto"
       />
 
-      <select
-        className={selectClass}
+      <Select
+        containerClassName="min-w-0 md:w-auto"
         value={values.datePreset}
         onChange={(e) => onChange({ ...values, datePreset: e.target.value as LeadFilterValues["datePreset"] })}
       >
@@ -67,7 +64,7 @@ export function LeadFilters({ values, onChange }: LeadFiltersProps) {
         <option value="yesterday">Yesterday</option>
         <option value="last7">Last 7 Days</option>
         <option value="last30">Last 30 Days</option>
-      </select>
+      </Select>
     </div>
   );
 }

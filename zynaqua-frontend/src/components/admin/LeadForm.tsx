@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { adminApi, AdminApiError } from "@/lib/adminApi";
-import { Button, Input, Textarea, Card, CardBody } from "@/components/ui";
+import { Button, Input, Textarea, Select, Card, CardBody } from "@/components/ui";
 import type { EnquiryStatus } from "@/types";
 
 interface ProductOption {
@@ -144,22 +144,20 @@ export function LeadForm({ initialValues, leadId }: LeadFormProps) {
       <Card><CardBody className="space-y-4">
         <h3>Enquiry Details</h3>
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-charcoal-700">Enquiry Type</label>
-          <select
-            className="w-full rounded-lg border border-charcoal-100 bg-white px-4 py-2.5 text-sm"
+          <Select
+            label="Enquiry Type"
             value={values.enquiryType}
             onChange={(e) => update("enquiryType", e.target.value as LeadFormValues["enquiryType"])}
           >
             {ENQUIRY_TYPE_OPTIONS.map((t) => (
               <option key={t} value={t}>{t.replace(/_/g, " ")}</option>
             ))}
-          </select>
+          </Select>
         </div>
 
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-charcoal-700">Product (optional)</label>
-          <select
-            className="w-full rounded-lg border border-charcoal-100 bg-white px-4 py-2.5 text-sm"
+          <Select
+            label="Product (optional)"
             value={values.productId}
             onChange={(e) => update("productId", e.target.value)}
           >
@@ -167,7 +165,7 @@ export function LeadForm({ initialValues, leadId }: LeadFormProps) {
             {products.map((p) => (
               <option key={p.id} value={p.id}>{p.name}</option>
             ))}
-          </select>
+          </Select>
         </div>
 
         {isEditMode && (
@@ -177,16 +175,15 @@ export function LeadForm({ initialValues, leadId }: LeadFormProps) {
               value={values.message} onChange={(e) => update("message", e.target.value)}
             />
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-charcoal-700">Status</label>
-              <select
-                className="w-full rounded-lg border border-charcoal-100 bg-white px-4 py-2.5 text-sm"
+              <Select
+                label="Status"
                 value={values.status}
                 onChange={(e) => update("status", e.target.value as EnquiryStatus)}
               >
                 {STATUS_OPTIONS.map((s) => (
                   <option key={s} value={s}>{s.replace(/_/g, " ")}</option>
                 ))}
-              </select>
+              </Select>
             </div>
           </>
         )}

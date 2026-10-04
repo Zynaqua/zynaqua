@@ -9,7 +9,7 @@ import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { adminApi } from "@/lib/adminApi";
-import { Button, Card, CardBody, Badge } from "@/components/ui";
+import { Button, Card, CardBody, Badge, Select } from "@/components/ui";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 import type { EnquiryStatus } from "@/types";
 
@@ -172,15 +172,17 @@ export default function LeadDetailPage({ params }: PageProps) {
       <Card className="mt-4"><CardBody>
         <p className="text-sm font-medium text-charcoal-400">Status</p>
         <div className="mt-2 flex flex-wrap items-center gap-3">
-          <select
+          <Select
+            aria-label="Lead status"
+            containerClassName="w-auto"
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value as EnquiryStatus)}
-            className="rounded-lg border border-charcoal-100 px-3 py-2 text-sm"
+            className="w-auto"
           >
             {STATUS_OPTIONS.map((s) => (
               <option key={s} value={s}>{s.replace(/_/g, " ")}</option>
             ))}
-          </select>
+          </Select>
           <Button
             size="sm"
             onClick={handleStatusSave}

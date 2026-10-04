@@ -46,7 +46,7 @@ export default function AdminProductsPage() {
 
       <div className="mt-6 space-y-3">
         {products.map((product) => (
-          <Card key={product.id} className={!product.isActive ? "opacity-60" : undefined}>
+          <Card interactive key={product.id} className={!product.isActive ? "opacity-60" : undefined}>
             <CardBody className="flex flex-col gap-3 min-[641px]:flex-row min-[641px]:items-center min-[641px]:justify-between">
               <div className="min-w-0">
                 <div className="flex flex-col gap-2 min-[641px]:flex-row min-[641px]:items-center">

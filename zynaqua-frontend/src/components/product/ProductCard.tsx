@@ -17,7 +17,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
   );
 
   return (
-    <Card className="flex h-full flex-col overflow-hidden">
+    <Card interactive className="flex h-full flex-col overflow-hidden">
       <div className="relative aspect-[4/3] bg-charcoal-50 sm:aspect-square">
         {primaryImage ? (
           <Image

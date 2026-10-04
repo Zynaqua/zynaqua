@@ -50,6 +50,48 @@
     box-sizing: border-box;
   }
 
+  dialog::backdrop {
+    background: rgba(15, 15, 16, 0.5);
+  }
+
+  dialog[open] {
+    animation: sheet-enter 200ms ease-out;
+  }
+
+  @keyframes sheet-enter {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (min-width: 768px) {
+    dialog[open] {
+      animation-name: dialog-enter;
+    }
+  }
+
+  @keyframes dialog-enter {
+    from {
+      opacity: 0;
+      transform: translate(-50%, calc(-50% + 1rem));
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    dialog[open] {
+      animation: none;
+    }
+  }
+
   html {
     scroll-behavior: smooth;
   }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Card, CardBody } from "@/components/ui";
+import { Card, CardBody, Container, SectionHeading } from "@/components/ui";
 import { buildWhatsAppUrl, navbarWhatsAppMessage } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
@@ -27,14 +27,13 @@ const SOCIAL_LINKS = [
 
 export default function ContactPage() {
   return (
-    <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
-      <div className="text-center">
-        <h1>Get in Touch</h1>
-        <p className="mx-auto mt-4 max-w-lg">
-          Have a question about a product, an existing AMC plan, or anything
-          else? Reach us directly — we typically respond fastest on WhatsApp.
-        </p>
-      </div>
+    <Container className="max-w-4xl py-16">
+      <SectionHeading
+        title="Get in Touch"
+        level="h1"
+        align="center"
+        description="Have a question about a product, an existing AMC plan, or anything else? Reach us directly — we typically respond fastest on WhatsApp."
+      />
 
       <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
         {CONTACT_DETAILS.map((detail) => (
@@ -74,6 +73,6 @@ export default function ContactPage() {
           ))}
         </div>
       </section>
-    </div>
+    </Container>
   );
 }

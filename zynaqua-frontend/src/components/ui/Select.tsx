@@ -1,15 +1,15 @@
 import { cn } from "@/lib/utils";
-import { forwardRef, useId, type InputHTMLAttributes } from "react";
+import { forwardRef, useId, type SelectHTMLAttributes } from "react";
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   helperText?: string;
   error?: string;
   containerClassName?: string;
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, containerClassName, label, helperText, error, id, required, ...props }, ref) => {
+export const Select = forwardRef<HTMLSelectElement, SelectProps>(
+  ({ className, containerClassName, label, helperText, error, id, required, children, ...props }, ref) => {
     const autoId = useId();
     const fieldId = id ?? autoId;
     const descriptionId = `${fieldId}-description`;
@@ -23,21 +23,23 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             {label}{required && <span aria-hidden="true"> *</span>}
           </label>
         )}
-        <input
+        <select
           ref={ref}
           id={fieldId}
           required={required}
           aria-invalid={error ? true : undefined}
           aria-describedby={describedBy}
           className={cn(
-            "min-h-12 w-full rounded-lg border border-fieldBorder bg-white px-4 py-2.5 text-charcoal-950 placeholder:text-charcoal-400 transition-colors hover:border-gold-700 focus:border-gold-700 focus:outline-none focus:ring-2 focus:ring-gold-700/40 focus:ring-offset-1 disabled:cursor-not-allowed disabled:bg-charcoal-50 disabled:opacity-70",
+            "min-h-12 w-full rounded-lg border border-fieldBorder bg-white px-4 py-2.5 text-charcoal-950 transition-colors hover:border-gold-700 focus:border-gold-700 focus:outline-none focus:ring-2 focus:ring-gold-700/40 focus:ring-offset-1 disabled:cursor-not-allowed disabled:bg-charcoal-50 disabled:opacity-70",
             error
               ? "border-red-400 focus:ring-red-300"
               : "",
             className
           )}
           {...props}
-        />
+        >
+          {children}
+        </select>
         {error ? (
           <p id={errorId} role="alert" className="mt-1 text-sm text-red-600">{error}</p>
         ) : helperText ? (
@@ -47,4 +49,4 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     );
   }
 );
-Input.displayName = "Input";
+Select.displayName = "Select";
