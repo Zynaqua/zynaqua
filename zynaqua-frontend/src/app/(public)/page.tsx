@@ -8,7 +8,7 @@ import { FinalCTA } from "@/components/home/FinalCTA";
 
 export default function HomePage() {
   return (
-    <div className="mx-auto max-w-6xl space-y-16 px-6 py-10">
+    <div className="mx-auto w-full max-w-[1200px] space-y-16 px-4 py-10 sm:px-6">
       <section id="book-demo" className="flex flex-col items-center gap-6 text-center">
         <div className="flex max-w-3xl flex-col items-center">
           <h1 className="max-w-[20rem] text-3xl font-bold leading-tight md:max-w-3xl md:text-5xl">

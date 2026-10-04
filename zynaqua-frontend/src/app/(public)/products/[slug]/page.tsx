@@ -92,7 +92,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
   );
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-10">
+    <div className="mx-auto w-full max-w-[1200px] px-4 py-10 sm:px-6">
       <nav aria-label="Breadcrumb" className="mb-6 text-sm text-charcoal-400">
         <Link href="/products" className="hover:text-charcoal-950">
           Products

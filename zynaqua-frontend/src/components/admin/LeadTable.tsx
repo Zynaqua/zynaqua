@@ -37,7 +37,7 @@ export function LeadTable({ leads }: LeadTableProps) {
   return (
     <>
       {/* Desktop table */}
-      <div className="hidden overflow-x-auto rounded-xl border border-charcoal-100 md:block">
+      <div className="hidden min-w-0 overflow-x-auto rounded-xl border border-charcoal-100 md:block">
         <table className="w-full text-left text-sm">
           <thead className="border-b border-charcoal-100 bg-charcoal-50">
             <tr>
@@ -86,23 +86,23 @@ export function LeadTable({ leads }: LeadTableProps) {
             href={`/admin/leads/${lead.enquiryId}`}
             className="block rounded-xl border border-charcoal-100 p-4"
           >
-            <div className="flex items-start justify-between">
+            <div className="flex flex-col gap-2">
               <div>
                 <p className="font-medium text-charcoal-950">{lead.customerName}</p>
                 <p className="text-sm text-charcoal-400">{lead.customerMobile} · {lead.customerCity}</p>
               </div>
+              <p className="text-xs text-charcoal-400">
+                {lead.enquiryType.replace(/_/g, " ")} ·{" "}
+                {new Date(lead.createdAt).toLocaleDateString("en-IN")}
+              </p>
+              <p className="text-xs text-charcoal-400">
+                Source:{" "}
+                <span className={lead.source === "OFFLINE" ? "font-medium text-aqua-600" : ""}>
+                  {lead.source === "OFFLINE" ? "Offline" : "Online"}
+                </span>
+              </p>
               <Badge variant={STATUS_BADGE_VARIANT[lead.status]}>{lead.status.replace(/_/g, " ")}</Badge>
             </div>
-            <p className="mt-2 text-xs text-charcoal-400">
-              {lead.enquiryType.replace(/_/g, " ")} · {new Date(lead.createdAt).toLocaleDateString("en-IN")}
-            </p>
-            <p className="mt-2 text-xs text-charcoal-400">
-              {lead.enquiryType.replace(/_/g, " ")} ·{" "}
-              <span className={lead.source === "OFFLINE" ? "text-aqua-600 font-medium" : ""}>
-                {lead.source === "OFFLINE" ? "Offline" : "Online"}
-              </span>{" "}
-              · {new Date(lead.createdAt).toLocaleDateString("en-IN")}
-            </p>
           </Link>
         ))}
       </div>

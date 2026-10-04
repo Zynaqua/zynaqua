@@ -34,7 +34,7 @@ export default function AdminProductsPage() {
   };
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-10">
+    <div className="mx-auto w-full max-w-[1200px] px-4 py-10 sm:px-6">
       <div className="flex items-center justify-between">
         <h1>Products</h1>
         <Link href="/admin/products/new">
@@ -47,22 +47,25 @@ export default function AdminProductsPage() {
       <div className="mt-6 space-y-3">
         {products.map((product) => (
           <Card key={product.id} className={!product.isActive ? "opacity-60" : undefined}>
-            <CardBody className="flex items-center justify-between">
-              <div>
-                <div className="flex items-center gap-2">
-                  <h4>{product.name}</h4>
-                  {!product.isActive && <Badge variant="danger">Inactive</Badge>}
-                  {product.isFeatured && <Badge variant="gold">Featured</Badge>}
+            <CardBody className="flex flex-col gap-3 min-[641px]:flex-row min-[641px]:items-center min-[641px]:justify-between">
+              <div className="min-w-0">
+                <div className="flex flex-col gap-2 min-[641px]:flex-row min-[641px]:items-center">
+                  <h4 className="break-words">{product.name}</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {!product.isActive && <Badge variant="danger">Inactive</Badge>}
+                    {product.isFeatured && <Badge variant="gold">Featured</Badge>}
+                  </div>
                 </div>
                 <p className="mt-1 text-sm text-charcoal-400">
                   {product.category ?? "Uncategorized"} · ₹{product.price.toLocaleString("en-IN")}
                 </p>
               </div>
-              <div className="flex gap-2">
-                <Link href={`/admin/products/${product.id}/edit`}>
-                  <Button variant="outline" size="sm">Edit</Button>
+              <div className="grid grid-cols-2 gap-2 min-[641px]:flex">
+                <Link className="min-w-0" href={`/admin/products/${product.id}/edit`}>
+                  <Button className="w-full" variant="outline" size="sm">Edit</Button>
                 </Link>
                 <Button
+                  className="w-full"
                   variant={product.isActive ? "ghost" : "secondary"}
                   size="sm"
                   isLoading={busyId === product.id}

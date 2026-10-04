@@ -29,7 +29,7 @@ export default function AdminDashboardPage() {
   }, []);
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-10">
+    <div className="mx-auto w-full max-w-[1200px] px-4 py-10 sm:px-6">
       <h1>Admin Dashboard</h1>
 
       {error && (
