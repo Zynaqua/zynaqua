@@ -37,7 +37,7 @@ export default function AmcPage() {
   const whatsappUrl = buildWhatsAppUrl(amcWhatsAppMessage());
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-16">
+    <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
       {/* AMC Hero */}
       <section className="text-center">
         <h1>Keep Your Purifier Running Like New</h1>
