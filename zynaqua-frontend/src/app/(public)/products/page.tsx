@@ -25,7 +25,7 @@ export default async function ProductsPage() {
   const products = await getProducts();
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-10">
+    <div className="mx-auto w-full max-w-[1200px] px-4 py-10 sm:px-6">
       <h1>Our Products</h1>
       <p className="mt-2 max-w-xl">
         Browse our full range of water purifiers and accessories. Tap any

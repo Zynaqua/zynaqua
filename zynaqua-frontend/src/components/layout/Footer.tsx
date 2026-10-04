@@ -35,7 +35,7 @@ const SOCIAL_LINKS = [
 export function Footer() {
   return (
     <footer className="border-t border-charcoal-100 bg-charcoal-950 text-charcoal-100">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-6 py-14 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto grid w-full max-w-[1200px] grid-cols-1 gap-x-10 gap-y-8 px-4 py-14 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
 
         {/* Brand */}
         <div>
@@ -111,7 +111,7 @@ export function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-charcoal-900 px-6 py-5">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 text-xs text-charcoal-400 sm:flex-row">
+        <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center justify-between gap-3 px-4 text-xs text-charcoal-400 sm:flex-row sm:px-6">
 
           <p>
             &copy; {new Date().getFullYear()} ZynAqua.

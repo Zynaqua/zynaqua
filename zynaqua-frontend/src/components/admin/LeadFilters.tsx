@@ -23,10 +23,10 @@ const TYPE_OPTIONS: EnquiryType[] = ["FREE_DEMO", "PRODUCT_ENQUIRY", "AMC", "SER
 
 export function LeadFilters({ values, onChange }: LeadFiltersProps) {
   const selectClass =
-    "rounded-lg border border-charcoal-100 bg-white px-3 py-2 text-sm text-charcoal-950 focus:outline-none focus:ring-2 focus:ring-charcoal-200";
+    "w-full min-w-0 rounded-lg border border-charcoal-100 bg-white px-3 py-2 text-sm text-charcoal-950 focus:outline-none focus:ring-2 focus:ring-charcoal-200 md:w-auto";
 
   return (
-    <div className="flex flex-wrap gap-3">
+    <div className="grid grid-cols-2 gap-3 md:flex md:flex-wrap">
       <select
         className={selectClass}
         value={values.status}

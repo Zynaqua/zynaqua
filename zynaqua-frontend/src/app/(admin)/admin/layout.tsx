@@ -48,7 +48,7 @@ export default function AdminRouteGroupLayout({
         onMobileClose={() => setIsMobileSidebarOpen(false)}
       />
 
-      <div className="flex min-h-screen flex-1 flex-col">
+      <div className="flex min-h-screen min-w-0 flex-1 flex-col">
         {/* Mobile-only top bar — invisible at md+ where the sidebar is
             always visible and this control would be redundant. */}
         <div className="flex items-center justify-between border-b border-charcoal-100 bg-white px-4 py-3 md:hidden">
@@ -66,7 +66,7 @@ export default function AdminRouteGroupLayout({
           </button>
         </div>
 
-        <main className="flex-1 overflow-y-auto">{children}</main>
+        <main className="min-w-0 flex-1 overflow-y-auto">{children}</main>
       </div>
     </div>
   );

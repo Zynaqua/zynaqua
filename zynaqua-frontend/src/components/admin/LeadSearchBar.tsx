@@ -16,14 +16,14 @@ export function LeadSearchBar({ onSearch }: LeadSearchBarProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2">
+    <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-2 md:grid-cols-[minmax(0,1fr)_auto]">
       <Input
         placeholder="Search by name, mobile, email, pincode, or customer ID"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className="flex-1"
+        className="w-full min-w-0 flex-1"
       />
-      <Button type="submit" variant="outline">Search</Button>
+      <Button type="submit" variant="outline" className="w-full md:w-auto">Search</Button>
     </form>
   );
 }

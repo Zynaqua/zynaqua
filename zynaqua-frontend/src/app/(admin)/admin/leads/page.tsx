@@ -80,7 +80,7 @@ export default function AdminLeadsPage() {
   }, [fetchLeads]);
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-10">
+    <div className="mx-auto min-w-0 w-full max-w-[1200px] px-4 py-10 sm:px-6">
       <h1>Leads</h1>
         <Link href="/admin/leads/new">
           <Button>+ Add Lead</Button>

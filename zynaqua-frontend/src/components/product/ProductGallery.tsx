@@ -34,7 +34,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
           fill
           priority
           sizes="(max-width: 1024px) 100vw, 50vw"
-          className="object-cover"
+          className="object-contain p-4"
         />
       </div>
 
@@ -43,19 +43,22 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
           {sorted.map((img, index) => (
             <button
               key={`${img.imageUrl}-${index}`}
+              type="button"
               onClick={() => setActiveIndex(index)}
               aria-label={`View image ${index + 1} of ${productName}`}
               aria-current={index === activeIndex}
               className={`relative h-16 w-16 overflow-hidden rounded-lg border-2 transition-colors ${
-                index === activeIndex ? "border-gold-500" : "border-transparent"
+                index === activeIndex
+                  ? "border-gold-500"
+                  : "border-transparent"
               }`}
             >
               <Image
                 src={img.imageUrl}
-                alt=""
+                alt={img.altText ?? productName}
                 fill
                 sizes="64px"
-                className="object-cover"
+                className="object-contain p-2"
               />
             </button>
           ))}

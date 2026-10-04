@@ -1,4 +1,5 @@
 import { ProductGrid } from "@/components/product/ProductGrid";
+import Link from "next/link";
 import type { Product } from "@/types";
 
 async function getFeaturedProducts(): Promise<Product[]> {
@@ -21,7 +22,19 @@ export async function FeaturedProducts() {
     return null;
   }
 
-  return <ProductGrid products={products} />;
+  return (
+    <div>
+      <ProductGrid products={products} />
+      <div className="mt-8 text-center">
+        <Link
+          href="/products"
+          className="text-sm font-semibold text-charcoal-950 transition-colors hover:text-gold-600"
+        >
+          View All Products →
+        </Link>
+      </div>
+    </div>
+  );
 }
 
 export interface ProductImageView {

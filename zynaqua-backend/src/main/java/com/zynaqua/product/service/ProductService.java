@@ -82,6 +82,7 @@ public class ProductService {
         return new ProductResponseDTO(
                 product.getId(),
                 product.getName(),
+                product.getModelName(),
                 product.getSlug(),
                 product.getShortDescription(),
                 product.getDescription(),
@@ -110,6 +111,7 @@ public class ProductService {
 
         Product product = Product.builder()
                 .name(request.getName())
+                .modelName(request.getModelName())
                 .slug(slug)
                 .shortDescription(request.getShortDescription())
                 .description(request.getDescription())
@@ -135,6 +137,7 @@ public class ProductService {
         String slug = resolveSlug(request.getSlug(), request.getName(), id);
 
         product.setName(request.getName());
+        product.setModelName(request.getModelName());
         product.setSlug(slug);
         product.setShortDescription(request.getShortDescription());
         product.setDescription(request.getDescription());

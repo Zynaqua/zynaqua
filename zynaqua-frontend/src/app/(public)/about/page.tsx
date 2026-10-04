@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto max-w-4xl px-6 py-16">
+    <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
       {/* Hero */}
       <section className="text-center">
         <h1>Water You Can Trust</h1>
-        <p className="mx-auto mt-4 max-w-xl">
+        <p className="mx-auto mt-4 max-w-xl text-sm leading-6 md:text-base md:leading-relaxed">
           ZynAqua builds water purifiers designed around one priority: genuinely
           clean, safe drinking water for your home — without shortcuts.
         </p>
@@ -22,7 +22,7 @@ export default function AboutPage() {
       {/* Who We Are */}
       <section className="mt-16">
         <h2 className="mb-4">Who We Are</h2>
-        <p>
+        <p className="text-sm leading-6 md:text-base md:leading-relaxed">
           ZynAqua is a water purification brand focused on residential RO, UV,
           and alkaline purification systems. We design our products around
           real household needs — reliable purification, straightforward
@@ -33,7 +33,7 @@ export default function AboutPage() {
       {/* Our Mission */}
       <section className="mt-12">
         <h2 className="mb-4">Our Mission</h2>
-        <p>
+        <p className="text-sm leading-6 md:text-base md:leading-relaxed">
           To make genuinely effective water purification accessible and
           dependable for every home, backed by transparent pricing and
           service you can count on.
@@ -43,7 +43,7 @@ export default function AboutPage() {
       {/* Our Approach */}
       <section className="mt-12">
         <h2 className="mb-4">Our Approach</h2>
-        <p>
+        <p className="text-sm leading-6 md:text-base md:leading-relaxed">
           We focus on multi-stage purification — combining reverse osmosis,
           UV, and alkaline mineral technology depending on the product — and
           pair every purifier with expert-fitted installation, so what you
@@ -54,7 +54,7 @@ export default function AboutPage() {
       {/* Technology */}
       <section className="mt-12">
         <h2 className="mb-4">Technology</h2>
-        <p>
+        <p className="text-sm leading-6 md:text-base md:leading-relaxed">
           Our purifiers use RO membranes for dissolved-solids reduction, UV
           purification for microbiological safety, and alkaline or
           copper-infused cartridges for mineral balance — the specific
@@ -66,7 +66,7 @@ export default function AboutPage() {
       {/* Quality */}
       <section className="mt-12">
         <h2 className="mb-4">Quality</h2>
-        <p>
+        <p className="text-sm leading-6 md:text-base md:leading-relaxed">
           Every unit goes through installation by trained technicians, and
           our AMC plans are built to keep purification performance consistent
           well beyond the first year of use.
@@ -84,7 +84,7 @@ export default function AboutPage() {
           ].map((value) => (
             <li key={value.title} className="rounded-xl border border-charcoal-100 p-5">
               <h4>{value.title}</h4>
-              <p className="mt-1 text-sm">{value.desc}</p>
+              <p className="mt-1 text-sm leading-6">{value.desc}</p>
             </li>
           ))}
         </ul>
@@ -93,7 +93,7 @@ export default function AboutPage() {
       {/* Why ZynAqua */}
       <section className="mt-12">
         <h2 className="mb-4">Why ZynAqua</h2>
-        <p>
+        <p className="text-sm leading-6 md:text-base md:leading-relaxed">
           We keep the range focused rather than overwhelming, so every
           product on our site is one we can stand behind — see our{" "}
           <Link href="/products" className="font-medium text-charcoal-950 underline">

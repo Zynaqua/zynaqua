@@ -12,6 +12,7 @@ interface PageProps {
 function toFormValues(product: Product): ProductFormValues {
   return {
     name: product.name,
+    modelName: product.modelName ?? "",
     slug: product.slug,
     shortDescription: product.shortDescription ?? "",
     description: product.description ?? "",
@@ -20,13 +21,20 @@ function toFormValues(product: Product): ProductFormValues {
     category: product.category ?? "",
     isFeatured: product.isFeatured,
     images: product.images.map((img, i) => ({
-      imageUrl: img.imageUrl, altText: img.altText ?? "", displayOrder: img.displayOrder ?? i, isPrimary: img.isPrimary,
+      imageUrl: img.imageUrl,
+      altText: img.altText ?? "",
+      displayOrder: img.displayOrder ?? i,
+      isPrimary: img.isPrimary,
     })),
     features: product.features.map((f, i) => ({
-      featureName: f.featureName, featureValue: f.featureValue ?? "", displayOrder: f.displayOrder ?? i,
+      featureName: f.featureName,
+      featureValue: f.featureValue ?? "",
+      displayOrder: f.displayOrder ?? i,
     })),
     specifications: product.specifications.map((s, i) => ({
-      specificationName: s.specificationName, specificationValue: s.specificationValue, displayOrder: s.displayOrder ?? i,
+      specificationName: s.specificationName,
+      specificationValue: s.specificationValue,
+      displayOrder: s.displayOrder ?? i,
     })),
   };
 }

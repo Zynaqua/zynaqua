@@ -1,11 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const SLIDES = [
-  { id: 1, headline: "RO + Alkaline Purification", sub: "Pure, mineral-balanced water every day." },
-  { id: 2, headline: "Free Installation & Demo", sub: "Our technician sets it up at your home, at no cost." },
-  { id: 3, headline: "AMC Plans Available", sub: "Keep your purifier running like new, year-round." },
+  { id: 1, image: "/images/promo/promo1.webp", alt: "ZynAqua promotional image 1" },
+  { id: 2, image: "/images/promo/promo2.webp", alt: "ZynAqua promotional image 2" },
+  { id: 3, image: "/images/promo/promo3.webp", alt: "ZynAqua promotional image 3" },
+  { id: 4, image: "/images/promo/promo4.webp", alt: "ZynAqua promotional image 4" },
 ];
 
 export function PromoCarousel() {
@@ -14,24 +16,32 @@ export function PromoCarousel() {
   useEffect(() => {
     const timer = setInterval(() => {
       setActive((prev) => (prev + 1) % SLIDES.length);
-    }, 7000);
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
 
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-charcoal-950 px-8 py-10 text-white">
-      {SLIDES.map((slide, i) => (
-        <div
-          key={slide.id}
-          className={`transition-opacity duration-500 ${
-            i === active ? "opacity-100" : "pointer-events-none absolute inset-0 opacity-0"
-          }`}
-        >
-          <h3 className="text-white">{slide.headline}</h3>
-          <p className="mt-1 text-charcoal-400">{slide.sub}</p>
-        </div>
-      ))}
-      <div className="mt-6 flex gap-2">
+    <div className="w-full">
+      <div className="relative h-52 w-full overflow-hidden bg-white md:h-96" aria-live="polite">
+        {SLIDES.map((slide, index) => (
+          <div
+            key={slide.id}
+            className={`absolute inset-0 transition-opacity duration-500 ${
+              index === active ? "opacity-100" : "pointer-events-none opacity-0"
+            }`}
+          >
+            <Image
+              src={slide.image}
+              alt={slide.alt}
+              fill
+              sizes="(max-width: 768px) 100vw, 1152px"
+              className="object-contain"
+              priority={index === 0}
+            />
+          </div>
+        ))}
+      </div>
+      <div className="mt-3 flex justify-center gap-2">
         {SLIDES.map((slide, i) => (
           <button
             key={slide.id}

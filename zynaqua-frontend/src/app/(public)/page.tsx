@@ -8,11 +8,13 @@ import { FinalCTA } from "@/components/home/FinalCTA";
 
 export default function HomePage() {
   return (
-    <div className="mx-auto max-w-6xl space-y-16 px-6 py-10">
-      <section id="book-demo" className="flex flex-col items-center gap-10 lg:flex-row lg:items-start">
-        <div className="flex-1">
-          <h1>Premium Water Purifiers for Your Home</h1>
-          <p className="mt-4 max-w-lg">
+    <div className="mx-auto w-full max-w-[1200px] space-y-16 px-4 py-10 sm:px-6">
+      <section id="book-demo" className="flex flex-col items-center gap-6 text-center">
+        <div className="flex max-w-3xl flex-col items-center">
+          <h1 className="max-w-[20rem] text-3xl font-bold leading-tight md:max-w-3xl md:text-5xl">
+            Premium Water Purifiers for Your Home
+          </h1>
+          <p className="mt-4 max-w-2xl text-sm leading-6 text-charcoal-600 md:mt-5 md:text-base">
             RO + Alkaline purification, free installation, and reliable after-sales
             support — trusted by homes across Surat.
           </p>
