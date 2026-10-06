@@ -1,42 +1,66 @@
-HELP.md
-target/
+# =========================
+# Environment / Secrets
+# =========================
 .env
-application-local.yml
+.env.*
+!.env.example
+
+# Spring Boot generated documentation
+HELP.md
 
 # Local development configuration
 src/main/resources/application-local.yml
+
+# =========================
+# Logs
+# =========================
 *.log
+
+# =========================
+# Maven
+# =========================
+target/
+
+# =========================
+# IntelliJ IDEA
+# =========================
 .idea/
-*.iml
-.DS_Store
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
+# =========================
+# Eclipse / STS
+# =========================
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+
+# =========================
+# NetBeans
+# =========================
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### VS Code ###
+# =========================
+# Other build output
+# =========================
+build/
+
+# =========================
+# VS Code
+# =========================
 .vscode/
+
+# =========================
+# OS generated files
+# =========================
+.DS_Store
+Thumbs.db
