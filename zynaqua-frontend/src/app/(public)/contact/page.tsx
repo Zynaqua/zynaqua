@@ -20,14 +20,13 @@ const CONTACT_DETAILS = [
 
 const SOCIAL_LINKS = [
   { label: "WhatsApp", href: "https://wa.me/919227119282" },
-  { label: "Facebook", href: "https://facebook.com" },
-  { label: "Instagram", href: "https://instagram.com" },
-  { label: "Amazon", href: "https://amazon.in" },
+  { label: "Facebook", href: "https://www.facebook.com/share/1EKBFQ5JLR/" },
+  { label: "Instagram", href: "https://www.instagram.com/zynaqua?stkn=dHJyODR3MXZ6a2ds" },
 ];
 
 export default function ContactPage() {
   return (
-    <Container className="max-w-4xl py-16">
+    <Container className="max-w-4xl py-12 md:py-16">
       <SectionHeading
         title="Get in Touch"
         level="h1"

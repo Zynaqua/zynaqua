@@ -95,20 +95,21 @@ export function DemoForm({ mode = "inline", onSuccess, onDone }: DemoFormProps) 
 
       {submitState === "success" ? (
         <div className="space-y-4" aria-live="polite">
-          <p className="rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
-            Your enquiry has been submitted. WhatsApp is opening with your enquiry details.
+          <p className="flex items-start gap-2 rounded-lg bg-emerald-50 px-3 py-3 text-sm leading-6 text-emerald-700">
+            <span className="mt-1 shrink-0" aria-hidden="true">✓</span>
+            <span>Your enquiry has been submitted. WhatsApp is opening with your enquiry details.</span>
           </p>
-          <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <ButtonLink
               href={whatsAppUrl}
               variant="whatsapp"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1"
+              className="min-h-12 whitespace-nowrap px-5 sm:flex-none"
             >
               Continue on WhatsApp
             </ButtonLink>
-            <Button type="button" variant="ghost" onClick={done} className="flex-1">Done</Button>
+            <Button type="button" variant="ghost" onClick={done} className="min-h-12 sm:flex-none">Done</Button>
           </div>
         </div>
       ) : (

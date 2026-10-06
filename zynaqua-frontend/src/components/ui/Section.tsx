@@ -24,7 +24,7 @@ export function Section({
       className={cn(
         padding === "hero" && "pt-10 pb-8 md:pt-20 md:pb-12",
         padding === "tail" && "pt-0 pb-12 md:pb-16",
-        padding === "default" && "py-14 md:py-24",
+        padding === "default" && "py-12 md:py-20",
         tone === "warm" && "bg-warm",
         tone === "aqua" && "bg-aqua-50",
         tone === "dark" && "bg-charcoal-950 text-white",

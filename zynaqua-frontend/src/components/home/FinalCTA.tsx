@@ -4,7 +4,7 @@ import { DemoButton } from "./DemoButton";
 
 export function FinalCTA() {
   return (
-    <div className="rounded-2xl bg-charcoal-950 px-6 py-10 text-center text-white sm:px-10 md:py-14">
+    <div className="rounded-2xl bg-charcoal-950 px-6 py-10 text-center text-white sm:px-10 md:py-12">
       <h2 className="text-white">Ready for Pure, Safe Water at Home?</h2>
       <p className="mx-auto mt-2 max-w-lg text-footer">
         Book a free demo today or chat with us directly on WhatsApp.

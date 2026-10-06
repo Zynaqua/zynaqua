@@ -40,7 +40,7 @@ export default function HomePage() {
             </div>
             <div className="mt-6">
               <div className="flex items-baseline gap-3">
-                <span className="font-serif text-4xl font-semibold text-charcoal-950 md:text-5xl">2-Year</span>
+                <span className="font-serif text-4xl font-semibold leading-none tracking-tight text-charcoal-950 md:text-5xl">2-Year</span>
                 <span className="text-xs font-semibold uppercase tracking-[0.14em] text-gold-700">Unconditional Coverage</span>
               </div>
               <ul className="mt-4 flex flex-col gap-2 text-sm text-charcoal-700 md:flex-row md:gap-5">

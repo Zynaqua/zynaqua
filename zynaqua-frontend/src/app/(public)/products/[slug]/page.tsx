@@ -11,6 +11,7 @@ import { buildWhatsAppUrl, productWhatsAppMessage } from "@/lib/whatsapp";
 import type { Product } from "@/types";
 import Link from "next/link";
 import Image from "next/image";
+import { PRODUCT_DETAIL_SPECS, PRODUCT_HIGHLIGHTS } from "@/components/product/productDetails";
 
 // WHY Promise<{ slug: string }>: Next.js 15+ resolves dynamic route params
 // asynchronously so the route shell can begin streaming before params are
@@ -212,6 +213,23 @@ export default async function ProductDetailPage({ params }: PageProps) {
         </div>
       </div>
 
+      <section className="mt-12">
+        <SectionHeading title="Top Highlights" />
+        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {[
+            ["Purification", "10 Stage RO + UV"],
+            ["Filter Life", "2 Years"],
+            ["Storage", "10 Litres"],
+            ["Installation", "Wall Mount"],
+          ].map(([label, value]) => (
+            <div key={label} className="rounded-xl border border-charcoal-100 bg-charcoal-50 p-3 sm:p-4">
+              <p className="text-xs font-medium text-charcoal-500">{label}</p>
+              <p className="mt-1 text-sm font-semibold leading-5 text-charcoal-950">{value}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {product.description && (
         <section className="mt-14 max-w-3xl">
           <SectionHeading title="Product Overview" />
@@ -219,12 +237,40 @@ export default async function ProductDetailPage({ params }: PageProps) {
         </section>
       )}
 
-      {product.specifications.length > 0 && (
-        <section className="mt-14">
-          <SectionHeading title="Specifications" />
-          <SpecTable specifications={product.specifications} />
-        </section>
-      )}
+      <section className="mt-12">
+        <SectionHeading title="Key Product Highlights" />
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          {PRODUCT_HIGHLIGHTS.map(([title, description], index) => (
+            <article key={title} className="rounded-xl border border-charcoal-100 bg-white p-4 shadow-card">
+              <div className="flex gap-3">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gold-400/30 text-sm font-semibold">{index + 1}</span>
+                <div>
+                  <h3 className="text-base">{title}</h3>
+                  <p className="mt-2 text-sm leading-6">{description}</p>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-12">
+        <SectionHeading title="Specifications" />
+        <div className="mt-6">
+          <SpecTable specifications={[
+              ...PRODUCT_DETAIL_SPECS.map(([specificationName, specificationValue], index) => ({
+                id: 100000 + index,
+                specificationName,
+                specificationValue,
+                displayOrder: index,
+              })),
+              ...product.specifications.map((spec) => ({
+                ...spec,
+                displayOrder: PRODUCT_DETAIL_SPECS.length + spec.displayOrder,
+              })),
+            ]} />
+        </div>
+      </section>
 
       {faqItems.length > 0 && (
         <section className="mt-14">
