@@ -4,6 +4,9 @@ import { use, useEffect, useState } from "react";
 import { adminApi } from "@/lib/adminApi";
 import { LeadForm, type LeadFormValues } from "@/components/admin/LeadForm";
 import type { EnquiryStatus } from "@/types";
+import { AdminPage } from "@/components/admin/AdminPage";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { Alert } from "@/components/ui";
 
 interface LeadDetail {
   enquiryId: number;
@@ -50,13 +53,13 @@ export default function EditLeadPage({ params }: PageProps) {
   }, [id]);
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-10">
-      <h1>Edit Lead</h1>
+    <AdminPage className="max-w-3xl">
+      <AdminPageHeader title="Edit Lead" description="Update customer and enquiry details." />
       <div className="mt-6">
-        {error && <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
+        {error && <Alert variant="error">{error}</Alert>}
         {!initialValues && !error && <p className="text-charcoal-400">Loading…</p>}
         {initialValues && <LeadForm initialValues={initialValues} leadId={Number(id)} />}
       </div>
-    </div>
+    </AdminPage>
   );
 }

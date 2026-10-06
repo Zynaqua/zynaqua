@@ -10,8 +10,8 @@ export function SpecTable({ specifications }: SpecTableProps) {
   const sorted = [...specifications].sort((a, b) => a.displayOrder - b.displayOrder);
 
   return (
-    <div className="overflow-x-auto rounded-xl border border-charcoal-100">
-      <table className="w-full text-left text-sm">
+    <div className="rounded-2xl border border-charcoal-100">
+      <table className="w-full table-fixed text-left text-sm">
         <tbody>
           {sorted.map((spec, index) => (
             <tr
@@ -20,11 +20,11 @@ export function SpecTable({ specifications }: SpecTableProps) {
             >
               <th
                 scope="row"
-                className="w-1/3 px-4 py-3 font-medium text-charcoal-700"
+                className="w-1/3 break-words px-4 py-3 font-medium text-charcoal-700"
               >
                 {spec.specificationName}
               </th>
-              <td className="px-4 py-3 text-charcoal-950">{spec.specificationValue}</td>
+              <td className="break-words px-4 py-3 text-charcoal-950">{spec.specificationValue}</td>
             </tr>
           ))}
         </tbody>

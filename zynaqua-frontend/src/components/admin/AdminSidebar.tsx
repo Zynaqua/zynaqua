@@ -66,7 +66,7 @@ export function AdminSidebar({ isMobileOpen, onMobileClose }: AdminSidebarProps)
               href={item.href}
               onClick={onMobileClose}
               className={cn(
-                "block rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+              "flex min-h-11 items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                 isActive ? "bg-charcoal-950 text-white" : "text-charcoal-700 hover:bg-charcoal-50"
               )}
             >
@@ -79,7 +79,7 @@ export function AdminSidebar({ isMobileOpen, onMobileClose }: AdminSidebarProps)
       <div className="border-t border-charcoal-100 p-3">
         <button
           onClick={handleLogout}
-          className="w-full rounded-lg px-3 py-2 text-left text-sm font-medium text-charcoal-700 hover:bg-charcoal-50"
+          className="flex min-h-11 w-full items-center rounded-lg px-3 py-2 text-left text-sm font-medium text-charcoal-700 hover:bg-charcoal-50"
         >
           Log Out
         </button>
@@ -90,19 +90,19 @@ export function AdminSidebar({ isMobileOpen, onMobileClose }: AdminSidebarProps)
   return (
     <>
       {/* Desktop — unchanged from Day 9, always visible at md+ */}
-      <aside className="hidden h-screen w-60 shrink-0 flex-col border-r border-charcoal-100 bg-white md:flex">
+      <aside className="hidden h-screen w-60 shrink-0 flex-col border-r border-charcoal-100 bg-white lg:flex">
         {sidebarContent}
       </aside>
 
       {/* Mobile — slide-in drawer, only rendered when open */}
       {isMobileOpen && (
-        <div className="fixed inset-0 z-50 md:hidden">
+        <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-label="Admin navigation">
           <div
             className="absolute inset-0 bg-charcoal-950/40"
             onClick={onMobileClose}
             aria-hidden="true"
           />
-          <aside className="absolute left-0 top-0 flex h-full w-64 flex-col bg-white shadow-elevated">
+          <aside className="absolute left-0 top-0 flex h-full w-64 flex-col bg-white shadow-elevated" onKeyDown={(event) => { if (event.key === "Escape") onMobileClose(); }}>
             <div className="flex justify-end p-2">
               <button aria-label="Close menu" onClick={onMobileClose} className="p-2">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

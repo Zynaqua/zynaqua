@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input, Button } from "@/components/ui";
 
 interface LeadSearchBarProps {
@@ -9,6 +9,11 @@ interface LeadSearchBarProps {
 
 export function LeadSearchBar({ onSearch }: LeadSearchBarProps) {
   const [value, setValue] = useState("");
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => onSearch(value.trim()), 350);
+    return () => window.clearTimeout(timer);
+  }, [value, onSearch]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,7 +28,10 @@ export function LeadSearchBar({ onSearch }: LeadSearchBarProps) {
         onChange={(e) => setValue(e.target.value)}
         className="w-full min-w-0 flex-1"
       />
-      <Button type="submit" variant="outline" className="w-full md:w-auto">Search</Button>
+      <div className="flex gap-2">
+        <Button type="submit" variant="outline" className="w-full md:w-auto">Search</Button>
+        {value && <Button type="button" variant="ghost" onClick={() => setValue("")}>Clear</Button>}
+      </div>
     </form>
   );
 }

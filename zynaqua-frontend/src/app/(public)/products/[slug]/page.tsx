@@ -5,11 +5,19 @@ import { ProductGallery } from "@/components/product/ProductGallery";
 import { SpecTable } from "@/components/product/SpecTable";
 import { FaqAccordion } from "@/components/product/FaqAccordion";
 import { ProductGrid } from "@/components/product/ProductGrid";
-import { Button, Badge } from "@/components/ui";
+import { ProductMobileCTA } from "@/components/product/ProductMobileCTA";
+import { ButtonLink, Badge, Section, SectionHeading } from "@/components/ui";
 import { buildWhatsAppUrl, productWhatsAppMessage } from "@/lib/whatsapp";
 import type { Product } from "@/types";
 import Link from "next/link";
 import Image from "next/image";
+import {
+  getProductTier,
+  getProductHighlights,
+  getProductDetailSpecs,
+  PURIFICATION_BY_TIER,
+} from "@/components/product/productDetails";
+import { SpecGallery } from "@/components/product/SpecGallery";
 
 // WHY Promise<{ slug: string }>: Next.js 15+ resolves dynamic route params
 // asynchronously so the route shell can begin streaming before params are
@@ -90,9 +98,13 @@ export default async function ProductDetailPage({ params }: PageProps) {
   const whatsappUrl = buildWhatsAppUrl(
     productWhatsAppMessage(product.name, product.modelName)
   );
+  const faqItems: { question: string; answer: string }[] = [];
+  const tier = getProductTier(product.name);
+  const detailSpecs = getProductDetailSpecs(tier);
+  const highlights = getProductHighlights(tier);
 
   return (
-    <div className="mx-auto w-full max-w-[1200px] px-4 py-10 sm:px-6">
+    <Section className="pb-28 md:pb-24">
       <nav aria-label="Breadcrumb" className="mb-6 text-sm text-charcoal-400">
         <Link href="/products" className="hover:text-charcoal-950">
           Products
@@ -104,14 +116,14 @@ export default async function ProductDetailPage({ params }: PageProps) {
         </span>
       </nav>
 
-      <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-14">
         <ProductGallery images={product.images} productName={product.name} />
 
         <div>
-          <h1>{product.name}</h1>
+          <h1 className="text-4xl md:text-5xl">{product.name}</h1>
 
           {product.modelName && (
-            <p className="mt-1 text-sm font-medium text-charcoal-500">
+            <p className="mt-1 text-sm font-medium text-charcoal-400">
               {product.modelName}
             </p>
           )}
@@ -135,12 +147,12 @@ export default async function ProductDetailPage({ params }: PageProps) {
               <h3 className="mb-3 text-base font-semibold">Choose Model</h3>
 
               <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-xl border-2 border-gold-500 p-3">
+                <div aria-current="true" className="rounded-2xl border-2 border-gold-500 bg-warm p-3">
                   <div className="relative aspect-square overflow-hidden rounded-lg bg-charcoal-50">
                     {primaryImage && (
                       <Image
                         src={primaryImage.imageUrl}
-                        alt={product.modelName ?? product.name}
+                        alt={product.modelName ? `${product.name} ${product.modelName}` : product.name}
                         fill
                         sizes="(max-width: 640px) 50vw, 200px"
                         className="object-contain p-2"
@@ -165,13 +177,14 @@ export default async function ProductDetailPage({ params }: PageProps) {
                     <Link
                       key={variant.id}
                       href={`/products/${variant.slug}`}
-                      className="rounded-xl border border-charcoal-200 p-3 transition hover:border-gold-500"
+                      aria-current="false"
+                      className="rounded-2xl border border-charcoal-100 p-3 transition hover:border-gold-700 focus-visible:border-gold-700"
                     >
                       <div className="relative aspect-square overflow-hidden rounded-lg bg-charcoal-50">
                         {variantPrimaryImage && (
                           <Image
                             src={variantPrimaryImage.imageUrl}
-                            alt={variant.modelName ?? variant.name}
+                            alt={variant.modelName ? `${variant.name} ${variant.modelName}` : variant.name}
                             fill
                             sizes="(max-width: 640px) 50vw, 200px"
                             className="object-contain p-2"
@@ -183,7 +196,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                         {variant.modelName}
                       </p>
 
-                      <p className="text-sm text-charcoal-500">
+                      <p className="text-sm text-charcoal-400">
                         ₹{variant.price.toLocaleString("en-IN")}
                       </p>
                     </Link>
@@ -203,46 +216,97 @@ export default async function ProductDetailPage({ params }: PageProps) {
             </div>
           )}
 
-          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="mt-6 block">
-            <Button variant="whatsapp" className="w-full sm:w-auto">
-              Enquire on WhatsApp
-            </Button>
-          </a>
+          <ButtonLink href={whatsappUrl} variant="whatsapp" className="mt-6 w-full sm:w-auto" target="_blank" rel="noopener noreferrer">
+            Enquire on WhatsApp
+          </ButtonLink>
         </div>
       </div>
 
+      <section className="mt-12">
+        <SectionHeading title="Top Highlights" />
+        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {[
+            ["Purification", PURIFICATION_BY_TIER[tier]],
+            ["Filter Life", "2 Years"],
+            ["Storage", "10 Litres"],
+            ["Installation", "Wall Mount"],
+          ].map(([label, value]) => (
+            <div key={label} className="rounded-xl border border-charcoal-100 bg-charcoal-50 p-3 sm:p-4">
+              <p className="text-xs font-medium text-charcoal-500">{label}</p>
+              <p className="mt-1 text-sm font-semibold leading-5 text-charcoal-950">{value}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {product.description && (
-        <section className="mt-16 max-w-3xl">
-          <h2 className="mb-4">Product Overview</h2>
+        <section className="mt-14 max-w-3xl">
+          <SectionHeading title="Product Overview" />
           <p>{product.description}</p>
         </section>
       )}
 
-      {product.specifications.length > 0 && (
-        <section className="mt-16">
-          <h2 className="mb-4">Specifications</h2>
-          <SpecTable specifications={product.specifications} />
+      <section className="mt-12">
+        <SectionHeading title="Key Product Highlights" />
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          {highlights.map(([title, description], index) => (
+            <article key={title} className="rounded-xl border border-charcoal-100 bg-white p-4 shadow-card">
+              <div className="flex gap-3">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gold-400/30 text-sm font-semibold">{index + 1}</span>
+                <div>
+                  <h3 className="text-base">{title}</h3>
+                  <p className="mt-2 text-sm leading-6">{description}</p>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-12">
+        <SectionHeading title="Specifications" />
+        <div className="mt-6">
+          <SpecTable specifications={[
+              ...detailSpecs.map(([specificationName, specificationValue], index) => ({
+              id: 100000 + index,
+              specificationName,
+              specificationValue,
+              displayOrder: index,
+            })),
+            ...product.specifications.map((spec) => ({
+              ...spec,
+              displayOrder: detailSpecs.length + spec.displayOrder,
+            })),
+            ]} />
+        </div>
+      </section>
+
+      <section className="mt-14">
+        <SectionHeading title="Technology & Quality" description="A closer look at what's inside your purifier." />
+        <SpecGallery tier={tier} />
+      </section>
+
+      {faqItems.length > 0 && (
+        <section className="mt-14">
+          <SectionHeading title="Frequently Asked Questions" />
+          <FaqAccordion items={faqItems} />
         </section>
       )}
 
-      <section className="mt-16">
-        <h2 className="mb-4">Frequently Asked Questions</h2>
-        <FaqAccordion items={[]} />
-      </section>
-
       {otherProducts.length > 0 && (
-        <section className="mt-16">
-          <h2 className="mb-6">You May Also Like</h2>
+        <section className="mt-14">
+          <SectionHeading title="You May Also Like" />
           <ProductGrid products={otherProducts} />
         </section>
       )}
 
-      <section className="mt-16 rounded-2xl bg-charcoal-950 px-8 py-10 text-center text-white">
+      <section className="mt-14 rounded-2xl bg-charcoal-950 px-6 py-10 text-center text-white sm:px-8">
         <h3 className="text-white">Have Questions About {product.name}?</h3>
-        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="mt-4 inline-block">
-          <Button variant="whatsapp">Chat With Us on WhatsApp</Button>
-        </a>
+        <ButtonLink href={whatsappUrl} variant="whatsapp" className="mt-4" target="_blank" rel="noopener noreferrer">
+          Chat With Us on WhatsApp
+        </ButtonLink>
       </section>
-    </div>
+      <ProductMobileCTA price={product.price} href={whatsappUrl} />
+    </Section>
   );
 }

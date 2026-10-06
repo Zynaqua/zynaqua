@@ -4,6 +4,9 @@ import { use, useEffect, useState } from "react";
 import { adminApi } from "@/lib/adminApi";
 import { ProductForm, type ProductFormValues } from "@/components/admin/ProductForm";
 import type { Product } from "@/types";
+import { AdminPage } from "@/components/admin/AdminPage";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { Alert } from "@/components/ui";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -59,13 +62,13 @@ export default function EditProductPage({ params }: PageProps) {
   }, [id]);
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-10">
-      <h1>Edit Product</h1>
+    <AdminPage className="max-w-3xl">
+      <AdminPageHeader title="Edit Product" description="Update product content without changing its API contract." />
       <div className="mt-6">
-        {error && <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
+        {error && <Alert variant="error">{error}</Alert>}
         {!initialValues && !error && <p className="text-charcoal-400">Loading…</p>}
         {initialValues && <ProductForm initialValues={initialValues} productId={Number(id)} />}
       </div>
-    </div>
+    </AdminPage>
   );
 }

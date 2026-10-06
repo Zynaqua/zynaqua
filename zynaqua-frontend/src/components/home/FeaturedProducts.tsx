@@ -28,7 +28,7 @@ export async function FeaturedProducts() {
       <div className="mt-8 text-center">
         <Link
           href="/products"
-          className="text-sm font-semibold text-charcoal-950 transition-colors hover:text-gold-600"
+          className="text-sm font-semibold text-charcoal-950 transition-colors hover:text-gold-700"
         >
           View All Products →
         </Link>

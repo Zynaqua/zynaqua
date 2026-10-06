@@ -1,6 +1,7 @@
 import { ProductGrid } from "@/components/product/ProductGrid";
 import type { Product } from "@/types";
 import type { Metadata } from "next";
+import { Section, SectionHeading } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Products",
@@ -25,13 +26,8 @@ export default async function ProductsPage() {
   const products = await getProducts();
 
   return (
-    <div className="mx-auto w-full max-w-[1200px] px-4 py-10 sm:px-6">
-      <h1>Our Products</h1>
-      <p className="mt-2 max-w-xl">
-        Browse our full range of water purifiers and accessories. Tap any
-        product to see full specifications, or WhatsApp us directly.
-      </p>
-
+    <Section>
+      <SectionHeading title="Our Products" description="Browse our full range of water purifiers and accessories. Tap any product to see full specifications, or WhatsApp us directly." />
       <div className="mt-10">
         {products.length > 0 ? (
           <ProductGrid products={products} groupByCategory />
@@ -39,6 +35,6 @@ export default async function ProductsPage() {
           <p className="text-charcoal-400">No products available right now — please check back soon.</p>
         )}
       </div>
-    </div>
+      </Section>
   );
 }

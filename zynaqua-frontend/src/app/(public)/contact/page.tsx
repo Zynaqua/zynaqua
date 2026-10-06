@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Card, CardBody } from "@/components/ui";
+import { Card, CardBody, Container, SectionHeading } from "@/components/ui";
 import { buildWhatsAppUrl, navbarWhatsAppMessage } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
@@ -20,21 +20,19 @@ const CONTACT_DETAILS = [
 
 const SOCIAL_LINKS = [
   { label: "WhatsApp", href: "https://wa.me/919227119282" },
-  { label: "Facebook", href: "https://facebook.com" },
-  { label: "Instagram", href: "https://instagram.com" },
-  { label: "Amazon", href: "https://amazon.in" },
+  { label: "Facebook", href: "https://www.facebook.com/share/1EKBFQ5JLR/" },
+  { label: "Instagram", href: "https://www.instagram.com/zynaqua?stkn=dHJyODR3MXZ6a2ds" },
 ];
 
 export default function ContactPage() {
   return (
-    <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
-      <div className="text-center">
-        <h1>Get in Touch</h1>
-        <p className="mx-auto mt-4 max-w-lg">
-          Have a question about a product, an existing AMC plan, or anything
-          else? Reach us directly — we typically respond fastest on WhatsApp.
-        </p>
-      </div>
+    <Container className="max-w-4xl py-12 md:py-16">
+      <SectionHeading
+        title="Get in Touch"
+        level="h1"
+        align="center"
+        description="Have a question about a product, an existing AMC plan, or anything else? Reach us directly — we typically respond fastest on WhatsApp."
+      />
 
       <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
         {CONTACT_DETAILS.map((detail) => (
@@ -46,7 +44,7 @@ export default function ContactPage() {
                   href={detail.href}
                   target={detail.href.startsWith("http") ? "_blank" : undefined}
                   rel={detail.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="mt-1 block text-lg font-semibold text-charcoal-950 hover:text-gold-600"
+                  className="mt-1 block text-lg font-semibold text-charcoal-950 hover:text-gold-700"
                 >
                   {detail.value}
                 </a>
@@ -74,6 +72,6 @@ export default function ContactPage() {
           ))}
         </div>
       </section>
-    </div>
+    </Container>
   );
 }

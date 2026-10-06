@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Card, CardBody, Button } from "@/components/ui";
+import { Card, CardBody, Button, Container, SectionHeading } from "@/components/ui";
 import { FaqAccordion } from "@/components/product/FaqAccordion";
 import { buildWhatsAppUrl, amcWhatsAppMessage } from "@/lib/whatsapp";
 
@@ -37,15 +37,15 @@ export default function AmcPage() {
   const whatsappUrl = buildWhatsAppUrl(amcWhatsAppMessage());
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
+    <Container className="max-w-4xl py-12 md:py-16">
       {/* AMC Hero */}
-      <section className="text-center">
-        <h1>Keep Your Purifier Running Like New</h1>
-        <p className="mx-auto mt-4 max-w-lg">
-          Our AMC plans handle servicing, filter replacement, and genuine
-          parts — so your purifier keeps delivering the water quality it did
-          on day one.
-        </p>
+      <section>
+        <SectionHeading
+          title="Keep Your Purifier Running Like New"
+          level="h1"
+          align="center"
+          description="Our AMC plans handle servicing, filter replacement, and genuine parts — so your purifier keeps delivering the water quality it did on day one."
+        />
       </section>
 
       {/* Why AMC? */}
@@ -118,7 +118,7 @@ export default function AmcPage() {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           {HOW_IT_WORKS.map((item) => (
             <div key={item.step} className="flex gap-4">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gold-500/15 text-sm font-bold text-gold-600">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gold-500/15 text-sm font-bold text-gold-700">
                 {item.step}
               </span>
               <div>
@@ -143,6 +143,6 @@ export default function AmcPage() {
           <Button variant="whatsapp">WhatsApp Us About AMC</Button>
         </a>
       </section>
-    </div>
+    </Container>
   );
 }

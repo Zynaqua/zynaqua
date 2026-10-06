@@ -8,7 +8,7 @@ interface StatCardProps {
 
 export function StatCard({ label, value, accent = "neutral" }: StatCardProps) {
   const accentClass =
-    accent === "gold" ? "text-gold-600" : accent === "aqua" ? "text-aqua-600" : "text-charcoal-950";
+    accent === "gold" ? "text-gold-700" : accent === "aqua" ? "text-aqua-600" : "text-charcoal-950";
 
   return (
     <Card>
