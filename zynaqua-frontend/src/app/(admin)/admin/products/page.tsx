@@ -1,18 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { adminApi, AdminApiError } from "@/lib/adminApi";
-import { Button, Card, CardBody, Badge } from "@/components/ui";
+import { Alert, Button, ButtonLink, Card, CardBody, Badge, Skeleton } from "@/components/ui";
 import type { Product } from "@/types";
+import { AdminPage } from "@/components/admin/AdminPage";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [busyId, setBusyId] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const load = () => {
-    adminApi.get<Product[]>("/admin/products").then(setProducts).catch((err) => setError(err.message));
+    setError(null);
+    setIsLoading(true);
+    adminApi.get<Product[]>("/admin/products").then(setProducts).catch((err) => setError(err.message ?? "Failed to load products")).finally(() => setIsLoading(false));
   };
 
   useEffect(load, []);
@@ -34,19 +38,16 @@ export default function AdminProductsPage() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-[1200px] px-4 py-10 sm:px-6">
-      <div className="flex items-center justify-between">
-        <h1>Products</h1>
-        <Link href="/admin/products/new">
-          <Button>Add Product</Button>
-        </Link>
-      </div>
+    <AdminPage>
+      <AdminPageHeader title="Products" description="Manage the products shown across the ZynAqua website." actions={<ButtonLink href="/admin/products/new">Add Product</ButtonLink>} />
 
-      {error && <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
+      {error && <div className="mt-4"><Alert variant="error">{error}<button className="ml-3 min-h-11 underline" onClick={load}>Retry</button></Alert></div>}
 
       <div className="mt-6 space-y-3">
+        {isLoading && <Skeleton className="h-24" />}
+        {!isLoading && !error && products.length === 0 && <div className="rounded-xl border border-charcoal-100 bg-white p-10 text-center text-charcoal-400">No products found.</div>}
         {products.map((product) => (
-          <Card key={product.id} className={!product.isActive ? "opacity-60" : undefined}>
+          <Card interactive key={product.id} className={!product.isActive ? "opacity-60" : undefined}>
             <CardBody className="flex flex-col gap-3 min-[641px]:flex-row min-[641px]:items-center min-[641px]:justify-between">
               <div className="min-w-0">
                 <div className="flex flex-col gap-2 min-[641px]:flex-row min-[641px]:items-center">
@@ -61,9 +62,7 @@ export default function AdminProductsPage() {
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-2 min-[641px]:flex">
-                <Link className="min-w-0" href={`/admin/products/${product.id}/edit`}>
-                  <Button className="w-full" variant="outline" size="sm">Edit</Button>
-                </Link>
+                <ButtonLink className="w-full" href={`/admin/products/${product.id}/edit`} variant="outline" size="sm">Edit</ButtonLink>
                 <Button
                   className="w-full"
                   variant={product.isActive ? "ghost" : "secondary"}
@@ -78,6 +77,7 @@ export default function AdminProductsPage() {
           </Card>
         ))}
       </div>
-    </div>
+      {!error && products.length > 0 && <p className="sr-only">End of products</p>}
+    </AdminPage>
   );
 }

@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui";
+import { usePathname } from "next/navigation";
+import { ButtonLink } from "@/components/ui";
 import { MobileMenu } from "./MobileMenu";
+import { DemoButton } from "@/components/home/DemoButton";
 import {
   buildWhatsAppUrl,
   navbarWhatsAppMessage,
@@ -18,9 +20,11 @@ const NAV_LINKS = [
 ];
 
 export function Navbar() {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] =
     useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,7 +66,12 @@ export function Navbar() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-sm font-medium text-charcoal-700 transition-colors hover:text-charcoal-950"
+                  aria-current={pathname === link.href ? "page" : undefined}
+                  className={`border-b-2 py-2 text-sm font-medium transition-colors ${
+                    pathname === link.href
+                      ? "border-gold-500 text-charcoal-950"
+                      : "border-transparent text-charcoal-700 hover:border-gold-400 hover:text-charcoal-950"
+                  }`}
                 >
                   {link.label}
                 </Link>
@@ -71,45 +80,31 @@ export function Navbar() {
           </ul>
 
           {/* Desktop WhatsApp */}
-          <div className="hidden md:block">
-            <a
-              href={buildWhatsAppUrl(
-                navbarWhatsAppMessage()
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button
-                variant="whatsapp"
-                size="sm"
-              >
-                WhatsApp Us
-              </Button>
-            </a>
+          <div className="hidden items-center gap-2 md:flex">
+            <DemoButton size="sm">Book Free Demo</DemoButton>
+            <ButtonLink href={buildWhatsAppUrl(navbarWhatsAppMessage())} variant="whatsapp" size="sm" target="_blank" rel="noopener noreferrer">
+              WhatsApp Us
+            </ButtonLink>
           </div>
 
-          {/* Mobile hamburger */}
-          <button
-            type="button"
-            aria-label="Open menu"
-            aria-expanded={isMobileMenuOpen}
-            onClick={() => setIsMobileMenuOpen(true)}
-            className="flex h-10 w-10 items-center justify-center rounded-lg md:hidden"
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
+          <div className="flex items-center gap-2 md:hidden">
+            <a href="tel:+919227119282" className="flex h-11 w-11 items-center justify-center rounded-full text-sm font-semibold text-charcoal-950" aria-label="Call ZynAqua">
+              <span aria-hidden="true">☎</span>
+            </a>
+            <button
+              ref={menuButtonRef}
+              type="button"
+              aria-label="Open menu"
+              aria-controls="mobile-navigation"
+              aria-expanded={isMobileMenuOpen}
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="flex h-11 w-11 items-center justify-center rounded-full text-charcoal-950"
             >
-              <path
-                strokeLinecap="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </button>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <path strokeLinecap="round" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
         </nav>
       </header>
 
@@ -118,6 +113,8 @@ export function Navbar() {
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
         links={NAV_LINKS}
+        pathname={pathname}
+        triggerRef={menuButtonRef}
       />
     </>
   );

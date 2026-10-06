@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button, Input, Card, CardBody } from "@/components/ui";
+import { Button, Input, Card, CardBody, Alert } from "@/components/ui";
 import { saveToken } from "@/lib/auth";
 
 interface LoginResponse {
@@ -36,14 +36,14 @@ export default function AdminLoginPage() {
       const body = await res.json();
 
       if (!res.ok) {
-        throw new Error(body.message || "Login failed");
+        throw new Error("Unable to sign in. Check your credentials and try again.");
       }
 
       const data: LoginResponse = body.data;
       saveToken(data.token);
       router.push("/admin/dashboard");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Login failed");
+      setError("Unable to sign in. Check your credentials and try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -65,6 +65,7 @@ export default function AdminLoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              autoComplete="username"
             />
             <Input
               id="password"
@@ -74,10 +75,11 @@ export default function AdminLoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              autoComplete="current-password"
             />
 
             {error && (
-              <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>
+              <Alert variant="error">{error}</Alert>
             )}
 
             <Button type="submit" className="w-full" isLoading={isSubmitting}>

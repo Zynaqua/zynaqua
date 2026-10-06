@@ -9,40 +9,54 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Deep charcoal / black — primary brand color
+        warm: "#F7F5F1",
+        surface: "#EAF4F6",
+        footer: "#A1A1A8",
+        fieldBorder: "#9A958D",
+        whatsapp: {
+          DEFAULT: "#25D366",
+          dark: "#1FB958",
+        },
         charcoal: {
-          50: "#f7f7f8",
-          100: "#eeeef0",
-          400: "#6b6b70",
-          700: "#2b2b30",
-          900: "#111113",
-          950: "#0a0a0b",
+          50: "#F7F5F1",
+          100: "#E8E4DF",
+          400: "#6B6B6B",
+          700: "#3A3A3F",
+          900: "#1A1A1A",
+          950: "#0F0F10",
         },
-
-        // Warm gold — secondary / accent
         gold: {
-          400: "#e8c574",
-          500: "#d4af37",
-          600: "#b8942a",
+          400: "#E8C574",
+          500: "#D4A84B",
+          600: "#B8860B",
+          700: "#8A6508",
         },
-
-        // Water blue / aqua — used sparingly
         aqua: {
-          400: "#4fc3d9",
-          500: "#2ba8c2",
-          600: "#1e8ba3",
+          50: "#EAF4F6",
+          400: "#4FC3D9",
+          500: "#2BA8C2",
+          600: "#1E788B",
+          700: "#17606F",
         },
       },
 
       fontFamily: {
         sans: ["var(--font-plus-jakarta)", "system-ui", "sans-serif"],
+        serif: ["var(--font-playfair)", "Georgia", "serif"],
       },
 
       borderRadius: {
+        sm: "var(--radius-sm)",
+        md: "var(--radius-md)",
+        lg: "var(--radius-lg)",
         xl: "1rem",
         "2xl": "1.25rem",
       },
     },
+  },
+
+  future: {
+    hoverOnlyWhenSupported: true,
   },
 
   plugins: [],

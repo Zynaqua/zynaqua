@@ -1,7 +1,6 @@
 // src/components/product/ProductCard.tsx
 import Image from "next/image";
-import Link from "next/link";
-import { Card, CardBody, Badge, Button } from "@/components/ui";
+import { Card, CardBody, Badge, ButtonLink } from "@/components/ui";
 import { buildWhatsAppUrl, productWhatsAppMessage } from "@/lib/whatsapp";
 import type { Product } from "@/types";
 
@@ -17,7 +16,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
   );
 
   return (
-    <Card className="flex h-full flex-col overflow-hidden">
+    <Card interactive className="group flex h-full flex-col overflow-hidden">
       <div className="relative aspect-[4/3] bg-charcoal-50 sm:aspect-square">
         {primaryImage ? (
           <Image
@@ -37,11 +36,11 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
 
       <CardBody className="flex flex-1 flex-col">
         <div>
-          <h4 className="text-sm font-semibold md:text-xl">
+          <h3 className="text-base font-semibold md:text-xl">
             {product.name}
-          </h4>
+          </h3>
           {product.modelName && (
-            <p className="mt-1 text-xs font-medium text-charcoal-500 md:text-sm">
+            <p className="mt-1 text-xs font-medium text-charcoal-400 md:text-sm">
               {product.modelName}
             </p>
           )}
@@ -60,8 +59,8 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
           </div>
         )}
 
-        <div className="mt-4 flex items-baseline gap-2">
-          <span className="text-sm font-bold text-charcoal-950 md:text-lg">
+        <div className="mt-4 flex flex-wrap items-baseline gap-2">
+          <span className="text-base font-bold text-charcoal-950 md:text-lg">
             ₹{product.price.toLocaleString("en-IN")}
           </span>
           {product.mrp && product.mrp > product.price && (
@@ -71,25 +70,13 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
           )}
         </div>
 
-        <div className="mt-4 grid grid-cols-2 gap-2">
-          <Link href={`/products/${product.slug}`}>
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-9 w-full px-2 text-xs md:h-auto md:px-3 md:py-1.5 md:text-sm"
-            >
-              View Details
-            </Button>
-          </Link>
-          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-            <Button
-              variant="whatsapp"
-              size="sm"
-              className="h-9 w-full px-2 text-xs md:h-auto md:px-3 md:py-1.5 md:text-sm"
-            >
-              WhatsApp
-            </Button>
-          </a>
+        <div className="mt-auto grid grid-cols-2 gap-2 pt-5">
+          <ButtonLink href={`/products/${product.slug}`} variant="outline" size="sm" className="w-full px-2 text-xs md:px-3 md:text-sm">
+            View Details
+          </ButtonLink>
+          <ButtonLink href={whatsappUrl} variant="whatsapp" size="sm" className="w-full px-2 text-xs md:px-3 md:text-sm" target="_blank" rel="noopener noreferrer">
+            WhatsApp
+          </ButtonLink>
         </div>
       </CardBody>
     </Card>

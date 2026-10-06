@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { adminApi, AdminApiError } from "@/lib/adminApi";
-import { Button, Input, Textarea, Card, CardBody } from "@/components/ui";
+import { Alert, Button, Input, Textarea, Select, Card, CardBody } from "@/components/ui";
 import type { EnquiryStatus } from "@/types";
+import { LEAD_STATUS_META, ENQUIRY_TYPE_LABEL } from "@/lib/status";
 
 interface ProductOption {
   id: number;
@@ -103,40 +104,40 @@ export function LeadForm({ initialValues, leadId }: LeadFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {error && <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
+      {error && <Alert variant="error">{error}</Alert>}
 
       <Card><CardBody className="space-y-4">
         <h3>Customer Details</h3>
         <Input
           label="Customer Name" required
-          value={values.name} onChange={(e) => update("name", e.target.value)}
+          value={values.name} onChange={(e) => update("name", e.target.value)} autoComplete="name"
           error={fieldErrors.name}
         />
         <Input
           label="Mobile Number" required inputMode="numeric"
-          value={values.mobile} onChange={(e) => update("mobile", e.target.value)}
+          value={values.mobile} onChange={(e) => update("mobile", e.target.value)} type="tel" autoComplete="tel-national"
           error={fieldErrors.mobile}
         />
         <Input
           label="Email (optional)"
-          value={values.email} onChange={(e) => update("email", e.target.value)}
+          value={values.email} onChange={(e) => update("email", e.target.value)} type="email" autoComplete="email"
           error={fieldErrors.email}
         />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Input
             label="City" required
-            value={values.city} onChange={(e) => update("city", e.target.value)}
+            value={values.city} onChange={(e) => update("city", e.target.value)} autoComplete="address-level2"
             error={fieldErrors.city}
           />
           <Input
-            label="Pincode" required inputMode="numeric"
-            value={values.pincode} onChange={(e) => update("pincode", e.target.value)}
+            label="Pincode" required
+            value={values.pincode} onChange={(e) => update("pincode", e.target.value)} inputMode="numeric" autoComplete="postal-code"
             error={fieldErrors.pincode}
           />
         </div>
         <Textarea
           label="Address" required
-          value={values.address} onChange={(e) => update("address", e.target.value)}
+          value={values.address} onChange={(e) => update("address", e.target.value)} autoComplete="street-address"
           error={fieldErrors.address}
         />
       </CardBody></Card>
@@ -144,22 +145,20 @@ export function LeadForm({ initialValues, leadId }: LeadFormProps) {
       <Card><CardBody className="space-y-4">
         <h3>Enquiry Details</h3>
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-charcoal-700">Enquiry Type</label>
-          <select
-            className="w-full rounded-lg border border-charcoal-100 bg-white px-4 py-2.5 text-sm"
+          <Select
+            label="Enquiry Type"
             value={values.enquiryType}
             onChange={(e) => update("enquiryType", e.target.value as LeadFormValues["enquiryType"])}
           >
             {ENQUIRY_TYPE_OPTIONS.map((t) => (
-              <option key={t} value={t}>{t.replace(/_/g, " ")}</option>
+              <option key={t} value={t}>{ENQUIRY_TYPE_LABEL[t]}</option>
             ))}
-          </select>
+          </Select>
         </div>
 
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-charcoal-700">Product (optional)</label>
-          <select
-            className="w-full rounded-lg border border-charcoal-100 bg-white px-4 py-2.5 text-sm"
+          <Select
+            label="Product (optional)"
             value={values.productId}
             onChange={(e) => update("productId", e.target.value)}
           >
@@ -167,7 +166,7 @@ export function LeadForm({ initialValues, leadId }: LeadFormProps) {
             {products.map((p) => (
               <option key={p.id} value={p.id}>{p.name}</option>
             ))}
-          </select>
+          </Select>
         </div>
 
         {isEditMode && (
@@ -177,16 +176,15 @@ export function LeadForm({ initialValues, leadId }: LeadFormProps) {
               value={values.message} onChange={(e) => update("message", e.target.value)}
             />
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-charcoal-700">Status</label>
-              <select
-                className="w-full rounded-lg border border-charcoal-100 bg-white px-4 py-2.5 text-sm"
+              <Select
+                label="Status"
                 value={values.status}
                 onChange={(e) => update("status", e.target.value as EnquiryStatus)}
               >
                 {STATUS_OPTIONS.map((s) => (
-                  <option key={s} value={s}>{s.replace(/_/g, " ")}</option>
+                  <option key={s} value={s}>{LEAD_STATUS_META[s].label}</option>
                 ))}
-              </select>
+              </Select>
             </div>
           </>
         )}

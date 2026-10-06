@@ -5,9 +5,11 @@ import { adminApi } from "@/lib/adminApi";
 import { LeadSearchBar } from "@/components/admin/LeadSearchBar";
 import { LeadFilters, type LeadFilterValues } from "@/components/admin/LeadFilters";
 import { LeadTable, type LeadListItem } from "@/components/admin/LeadTable";
-import { Button } from "@/components/ui";
+import { Alert, Button, ButtonLink } from "@/components/ui";
 import { Skeleton } from "@/components/ui";
 import Link from "next/link";
+import { AdminPage } from "@/components/admin/AdminPage";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 
 interface PagedResponse<T> {
   content: T[];
@@ -52,9 +54,11 @@ export default function AdminLeadsPage() {
     status: "", enquiryType: "", city: "", datePreset: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchLeads = useCallback(async () => {
     setIsLoading(true);
+    setError(null);
     const { from, to } = presetToDateRange(filters.datePreset);
     const params = new URLSearchParams();
     if (searchTerm) params.set("search", searchTerm);
@@ -70,6 +74,8 @@ export default function AdminLeadsPage() {
       const result = await adminApi.get<PagedResponse<LeadListItem>>(`/admin/leads?${params.toString()}`);
       setLeads(result.content);
       setTotalPages(result.totalPages);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load leads");
     } finally {
       setIsLoading(false);
     }
@@ -78,16 +84,14 @@ export default function AdminLeadsPage() {
   useEffect(() => {
     fetchLeads();
   }, [fetchLeads]);
+  const handleSearch = useCallback((term: string) => { setSearchTerm(term); setPage(0); }, []);
 
   return (
-    <div className="mx-auto min-w-0 w-full max-w-[1200px] px-4 py-10 sm:px-6">
-      <h1>Leads</h1>
-        <Link href="/admin/leads/new">
-          <Button>+ Add Lead</Button>
-        </Link>
+    <AdminPage>
+      <AdminPageHeader title="Leads" description="Manage and follow up with customer enquiries." actions={<ButtonLink href="/admin/leads/new">+ Add Lead</ButtonLink>} />
 
       <div className="mt-6 space-y-4">
-        <LeadSearchBar onSearch={(term) => { setSearchTerm(term); setPage(0); }} />
+        <LeadSearchBar onSearch={handleSearch} />
         <LeadFilters
           values={filters}
           onChange={(v) => { setFilters(v); setPage(0); }}
@@ -106,13 +110,21 @@ export default function AdminLeadsPage() {
         )}
       </div>
 
+      {error && <div className="mt-6"><Alert variant="error" title="Unable to load leads">{error}<button className="ml-3 min-h-11 underline" onClick={fetchLeads}>Retry</button></Alert></div>}
+      {!isLoading && !error && leads.length === 0 && (
+        <div className="mt-6 rounded-xl border border-charcoal-100 bg-white p-10 text-center">
+          <p className="text-charcoal-700">No leads match your search or filters.</p>
+          <Button variant="ghost" className="mt-2" onClick={() => { setSearchTerm(""); setFilters({ status: "", enquiryType: "", city: "", datePreset: "" }); setPage(0); }}>Clear filters</Button>
+        </div>
+      )}
+
       {totalPages > 1 && (
         <div className="mt-6 flex items-center justify-center gap-3">
           <Button
             variant="outline"
             size="sm"
             disabled={page === 0}
-            onClick={() => setPage((p) => Math.max(0, p - 1))}
+            onClick={() => { setPage((p) => Math.max(0, p - 1)); window.scrollTo({ top: 0, behavior: "smooth" }); }}
           >
             Previous
           </Button>
@@ -121,12 +133,12 @@ export default function AdminLeadsPage() {
             variant="outline"
             size="sm"
             disabled={page >= totalPages - 1}
-            onClick={() => setPage((p) => p + 1)}
+            onClick={() => { setPage((p) => p + 1); window.scrollTo({ top: 0, behavior: "smooth" }); }}
           >
             Next
           </Button>
         </div>
       )}
-    </div>
+    </AdminPage>
   );
 }

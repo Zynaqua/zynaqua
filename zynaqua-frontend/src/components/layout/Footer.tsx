@@ -1,7 +1,9 @@
 
 import Link from "next/link";
 import {
+  buildPhoneUrl,
   buildWhatsAppUrl,
+  displayPhoneNumber,
   navbarWhatsAppMessage,
 } from "@/lib/whatsapp";
 
@@ -19,23 +21,19 @@ const SOCIAL_LINKS = [
     label: "WhatsApp",
   },
   {
-    href: "https://facebook.com",
+    href: "https://www.facebook.com/share/1EKBFQ5JLR/",
     label: "Facebook",
   },
   {
-    href: "https://instagram.com",
+    href: "https://www.instagram.com/zynaqua?stkn=dHJyODR3MXZ6a2ds",
     label: "Instagram",
-  },
-  {
-    href: "https://amazon.in",
-    label: "Amazon",
   },
 ];
 
 export function Footer() {
   return (
     <footer className="border-t border-charcoal-100 bg-charcoal-950 text-charcoal-100">
-      <div className="mx-auto grid w-full max-w-[1200px] grid-cols-1 gap-x-10 gap-y-8 px-4 py-14 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
+      <div className="mx-auto grid w-full max-w-[1200px] grid-cols-1 gap-x-10 gap-y-6 px-4 py-9 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:py-10">
 
         {/* Brand */}
         <div>
@@ -46,7 +44,7 @@ export function Footer() {
             </span>
           </span>
 
-          <p className="mt-3 text-sm text-charcoal-400">
+          <p className="mt-2 max-w-xs text-sm leading-6 text-footer">
             Premium water purifiers built on trust,
             real purification technology, and
             dependable after-sales service.
@@ -55,16 +53,16 @@ export function Footer() {
 
         {/* Quick Links */}
         <div>
-          <h5 className="mb-3 text-sm font-semibold text-white">
+          <h5 className="mb-2 text-sm font-semibold text-white">
             Quick Links
           </h5>
 
-          <ul className="space-y-2">
+          <ul className="space-y-1">
             {QUICK_LINKS.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-sm text-charcoal-400 hover:text-white"
+                  className="text-sm text-footer hover:text-white"
                 >
                   {link.label}
                 </Link>
@@ -75,30 +73,39 @@ export function Footer() {
 
         {/* Contact */}
         <div>
-          <h5 className="mb-3 text-sm font-semibold text-white">
+          <h5 className="mb-2 text-sm font-semibold text-white">
             Contact
           </h5>
 
-          <ul className="space-y-2 text-sm text-charcoal-400">
-            <li>WhatsApp: +91 92271 19282</li>
+          <ul className="space-y-1 text-sm text-footer">
+            <li>
+              <a href={buildPhoneUrl()} className="inline-flex min-h-11 items-center hover:text-white">
+                {displayPhoneNumber()}
+              </a>
+            </li>
+            <li>
+              <a href={buildWhatsAppUrl(navbarWhatsAppMessage())} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center hover:text-white">
+                WhatsApp
+              </a>
+            </li>
             <li>Surat, Gujarat, India</li>
           </ul>
         </div>
 
         {/* Social Links */}
         <div>
-          <h5 className="mb-3 text-sm font-semibold text-white">
+          <h5 className="mb-2 text-sm font-semibold text-white">
             Follow Us
           </h5>
 
-          <ul className="space-y-2">
+          <ul className="space-y-1">
             {SOCIAL_LINKS.map((link) => (
               <li key={link.href}>
                 <a
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-charcoal-400 hover:text-white"
+                  className="inline-flex min-h-11 items-center text-sm text-footer hover:text-white"
                 >
                   {link.label}
                 </a>
@@ -110,8 +117,8 @@ export function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-charcoal-900 px-6 py-5">
-        <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center justify-between gap-3 px-4 text-xs text-charcoal-400 sm:flex-row sm:px-6">
+      <div className="border-t border-charcoal-900 px-6 py-3">
+        <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center justify-between gap-3 px-4 text-xs text-footer sm:flex-row sm:px-6">
 
           <p>
             &copy; {new Date().getFullYear()} ZynAqua.
@@ -121,14 +128,14 @@ export function Footer() {
           <div className="flex gap-4">
             <Link
               href="/privacy-policy"
-              className="hover:text-white"
+              className="inline-flex min-h-11 items-center hover:text-white"
             >
               Privacy Policy
             </Link>
 
             <Link
               href="/terms"
-              className="hover:text-white"
+              className="inline-flex min-h-11 items-center hover:text-white"
             >
               Terms &amp; Conditions
             </Link>

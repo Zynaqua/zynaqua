@@ -1,33 +1,48 @@
 import { cn } from "@/lib/utils";
-import { forwardRef, type InputHTMLAttributes } from "react";
+import { forwardRef, useId, type InputHTMLAttributes } from "react";
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
+  helperText?: string;
   error?: string;
+  containerClassName?: string;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, error, id, ...props }, ref) => {
+  ({ className, containerClassName, label, helperText, error, id, required, ...props }, ref) => {
+    const autoId = useId();
+    const fieldId = id ?? autoId;
+    const descriptionId = `${fieldId}-description`;
+    const errorId = `${fieldId}-error`;
+    const describedBy = error ? errorId : helperText ? descriptionId : undefined;
+
     return (
-      <div className="w-full">
+      <div className={cn("w-full", containerClassName)}>
         {label && (
-          <label htmlFor={id} className="mb-1.5 block text-sm font-medium text-charcoal-700">
-            {label}
+          <label htmlFor={fieldId} className="mb-1.5 block text-sm font-medium text-charcoal-700">
+            {label}{required && <span aria-hidden="true"> *</span>}
           </label>
         )}
         <input
           ref={ref}
-          id={id}
+          id={fieldId}
+          required={required}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={describedBy}
           className={cn(
-            "w-full rounded-lg border bg-white px-4 py-2.5 text-charcoal-950 placeholder:text-charcoal-400 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1",
+            "min-h-12 w-full rounded-lg border border-fieldBorder bg-white px-4 py-2.5 text-charcoal-950 placeholder:text-charcoal-400 transition-colors hover:border-gold-700 focus:border-gold-700 focus:outline-none focus:ring-2 focus:ring-gold-700/40 focus:ring-offset-1 disabled:cursor-not-allowed disabled:bg-charcoal-50 disabled:opacity-70",
             error
               ? "border-red-400 focus:ring-red-300"
-              : "border-charcoal-100 focus:border-charcoal-950 focus:ring-charcoal-200",
+              : "",
             className
           )}
           {...props}
         />
-        {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
+        {error ? (
+          <p id={errorId} role="alert" className="mt-1 text-sm text-red-600">{error}</p>
+        ) : helperText ? (
+          <p id={descriptionId} className="mt-1 text-sm text-charcoal-400">{helperText}</p>
+        ) : null}
       </div>
     );
   }

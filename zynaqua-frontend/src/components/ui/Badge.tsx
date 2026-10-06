@@ -8,8 +8,9 @@ const badgeVariants = cva(
     variants: {
       variant: {
         neutral: "bg-charcoal-50 text-charcoal-700",
-        gold: "bg-gold-500/15 text-gold-600",
+        gold: "bg-gold-500/15 text-gold-700",
         aqua: "bg-aqua-500/15 text-aqua-600",
+        info: "bg-aqua-50 text-aqua-700",
         success: "bg-emerald-50 text-emerald-700",
         warning: "bg-amber-50 text-amber-700",
         danger: "bg-red-50 text-red-600",
