@@ -11,7 +11,13 @@ import { buildWhatsAppUrl, productWhatsAppMessage } from "@/lib/whatsapp";
 import type { Product } from "@/types";
 import Link from "next/link";
 import Image from "next/image";
-import { PRODUCT_DETAIL_SPECS, PRODUCT_HIGHLIGHTS } from "@/components/product/productDetails";
+import {
+  getProductTier,
+  getProductHighlights,
+  getProductDetailSpecs,
+  PURIFICATION_BY_TIER,
+} from "@/components/product/productDetails";
+import { SpecGallery } from "@/components/product/SpecGallery";
 
 // WHY Promise<{ slug: string }>: Next.js 15+ resolves dynamic route params
 // asynchronously so the route shell can begin streaming before params are
@@ -93,6 +99,9 @@ export default async function ProductDetailPage({ params }: PageProps) {
     productWhatsAppMessage(product.name, product.modelName)
   );
   const faqItems: { question: string; answer: string }[] = [];
+  const tier = getProductTier(product.name);
+  const detailSpecs = getProductDetailSpecs(tier);
+  const highlights = getProductHighlights(tier);
 
   return (
     <Section className="pb-28 md:pb-24">
@@ -217,7 +226,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
         <SectionHeading title="Top Highlights" />
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
-            ["Purification", "10 Stage RO + UV"],
+            ["Purification", PURIFICATION_BY_TIER[tier]],
             ["Filter Life", "2 Years"],
             ["Storage", "10 Litres"],
             ["Installation", "Wall Mount"],
@@ -240,7 +249,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
       <section className="mt-12">
         <SectionHeading title="Key Product Highlights" />
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          {PRODUCT_HIGHLIGHTS.map(([title, description], index) => (
+          {highlights.map(([title, description], index) => (
             <article key={title} className="rounded-xl border border-charcoal-100 bg-white p-4 shadow-card">
               <div className="flex gap-3">
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gold-400/30 text-sm font-semibold">{index + 1}</span>
@@ -258,18 +267,23 @@ export default async function ProductDetailPage({ params }: PageProps) {
         <SectionHeading title="Specifications" />
         <div className="mt-6">
           <SpecTable specifications={[
-              ...PRODUCT_DETAIL_SPECS.map(([specificationName, specificationValue], index) => ({
-                id: 100000 + index,
-                specificationName,
-                specificationValue,
-                displayOrder: index,
-              })),
-              ...product.specifications.map((spec) => ({
-                ...spec,
-                displayOrder: PRODUCT_DETAIL_SPECS.length + spec.displayOrder,
-              })),
+              ...detailSpecs.map(([specificationName, specificationValue], index) => ({
+              id: 100000 + index,
+              specificationName,
+              specificationValue,
+              displayOrder: index,
+            })),
+            ...product.specifications.map((spec) => ({
+              ...spec,
+              displayOrder: detailSpecs.length + spec.displayOrder,
+            })),
             ]} />
         </div>
+      </section>
+
+      <section className="mt-14">
+        <SectionHeading title="Technology & Quality" description="A closer look at what's inside your purifier." />
+        <SpecGallery tier={tier} />
       </section>
 
       {faqItems.length > 0 && (
