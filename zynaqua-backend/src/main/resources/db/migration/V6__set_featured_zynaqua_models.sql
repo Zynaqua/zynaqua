@@ -1,9 +1,17 @@
 UPDATE products
 SET is_featured = CASE
-    WHEN name = 'Zynaqua Aura' AND model_name = 'Model 1' THEN TRUE
-    WHEN name = 'Zynaqua Prime' AND model_name = 'Model 1' THEN TRUE
-    WHEN name = 'Zynaqua Premium' AND model_name = 'Model 1' THEN TRUE
-    WHEN name IN ('Zynaqua Aura', 'Zynaqua Prime', 'Zynaqua Premium') THEN FALSE
-    ELSE is_featured
-END
-WHERE name IN ('Zynaqua Aura', 'Zynaqua Prime', 'Zynaqua Premium');
+                      WHEN slug IN (
+                                    'zynaqua-aura-model-1',
+                                    'zynaqua-prime-model-1',
+                                    'zynaqua-premium-model-1'
+                          ) THEN TRUE
+                      ELSE FALSE
+    END
+WHERE slug IN (
+               'zynaqua-aura-model-1',
+               'zynaqua-aura-model-2',
+               'zynaqua-prime-model-1',
+               'zynaqua-prime-model-2',
+               'zynaqua-premium-model-1',
+               'zynaqua-premium-model-2'
+    );
